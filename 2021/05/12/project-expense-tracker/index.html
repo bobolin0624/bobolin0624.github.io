@@ -1,0 +1,572 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Bobo&#39;s Blog">
+    <title>Project - Expense Tracker - Bobo&#39;s Blog</title>
+    <meta name="author" content="Bobo Lin">
+    
+        <meta name="keywords" content="hexo,JavaScript,Node.js,">
+    
+    
+        <link rel="icon" href="https://bobolin0624.github.io/assets/images/favicon.png">
+    
+    
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bobo Lin","sameAs":["https://github.com/BoboLin0624","https://www.linkedin.com/in/chia-an-lin-ba2a03218/"],"image":"avatar.png"},"articleBody":"Why this project在學習後端開發的路途中，CRUD (Create, Read, Update, Delete) 以及資料的處理是學習的必經路程，為了多次的產出練習，除了一開始最常入門的 Todo-List 外，也思考生活上最常使用增刪改查的應用，因為自己每天都有使用記帳 app，所以也因此實作了簡單的 Web 版本。\nUsing後端：Node.js + Express.js登入機制： passport.js資料庫：MongoDB + mongoose前端： express-handlebars / Bootstrap版本：Github部署：heroku\nChallenges and sharingBootstrap 的排版與 CRUD 的基本功能撰寫上，因為練習較多次的關係，相對是能掌握的部分！\n但在 filter 分類的資料處理上，心中想著要考量若資料量過多造成的效能問題，所以就選擇 mongoose 提供的 aggregate 的方法，但一開始使用時並沒有看太多細節，後面要加上年/月的篩選條件優化時，就遇到了無法同時兼顧兩邊條件的設定，在觀摩了網路許多的實作經驗以及查找 aggregate 眾多語法後，才找了 $ne 來表示若某條件沒有被設定時，就找出全部資料的方式，有看到許多分享經驗的人說：程式有趣的地方在於有很多種方式可以達到一樣的效果或功能。而給自己的心態是，不求一下子就寫出最乾淨、俐落的程式碼，但求能一直保持學習精進的熱忱。\n另一個是 seeder 的建立，因為有關聯的資料表，所以必須先執行 user 的建立，接著再建立資料對應給 user，使用 forEach去迭代 json 檔案，就會發生種子資料沒有建立完全的狀況，因此才知道是非同步處理的議題，程式寫到越後面執行的 task 越多，就開始面對了這個大魔王，目前對於非同步本身的概念上是理解的，但對於實作上的用法還是需要查找許多網路資料來跟著用，這次選用的是 Promise.all，在 Promise.all 中建立好一組陣列資料，來保證陣列裡的內容全部執行完畢再結束 seeder。\n在使用 passport.js 提供身份驗證機制的 middleware 時，體會到練習使用第三方套件也是很重要的事，可以方便進行整個全局開發。從需求來規劃需要的功能，接著搜尋套件，閱讀大量文件，實作出想要的功能，一開始對於密麻的文件會完全不知道怎麼下手，遇到很多的挫折，所幸現在網路資源很多，不斷觀摩、嘗試，最後實作出來的成果也是會充滿不少成就感。\nexpense-tracker 專案的 GitHub 與 Heroku\n","dateCreated":"2021-05-12T10:18:33+08:00","dateModified":"2022-04-19T15:07:55+08:00","datePublished":"2021-05-12T10:18:33+08:00","description":"Why this project在學習後端開發的路途中，CRUD (Create, Read, Update, Delete) 以及資料的處理是學習的必經路程","headline":"Project - Expense Tracker","image":["//d1u9biwaxjngwg.cloudfront.net/cover-image-showcase/city-750.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"https://bobolin0624.github.io/2021/05/12/project-expense-tracker/"},"publisher":{"@type":"Organization","name":"Bobo Lin","sameAs":["https://github.com/BoboLin0624","https://www.linkedin.com/in/chia-an-lin-ba2a03218/"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"https://bobolin0624.github.io/2021/05/12/project-expense-tracker/","keywords":"Node.js, Express.js, MongoDB","thumbnailUrl":"//d1u9biwaxjngwg.cloudfront.net/cover-image-showcase/city-750.jpg"}</script>
+    <meta name="description" content="Why this project在學習後端開發的路途中，CRUD (Create, Read, Update, Delete) 以及資料的處理是學習的必經路程">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Project - Expense Tracker">
+<meta property="og:url" content="https://bobolin0624.github.io/2021/05/12/project-expense-tracker/index.html">
+<meta property="og:site_name" content="Bobo&#39;s Blog">
+<meta property="og:description" content="Why this project在學習後端開發的路途中，CRUD (Create, Read, Update, Delete) 以及資料的處理是學習的必經路程">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-05-12T02:18:33.000Z">
+<meta property="article:modified_time" content="2022-04-19T07:07:55.899Z">
+<meta property="article:author" content="Bobo Lin">
+<meta property="article:tag" content="Node.js">
+<meta property="article:tag" content="Express.js">
+<meta property="article:tag" content="MongoDB">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://bobolin0624.github.io/assets/images/avatar.png"/>
+    
+    
+        <meta property="og:image" content="//d1u9biwaxjngwg.cloudfront.net/cover-image-showcase/city-750.jpg"/>
+        <meta class="swiftype" name="image" data-type="enum" content="//d1u9biwaxjngwg.cloudfront.net/cover-image-showcase/city-750.jpg"/>
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-gkxabcgjdjamjks2hf9trhmc8enb3bnyupdtpbsmjovnhqo9yficmtd0fyiw.min.css">
+
+    <!--STYLES END-->
+    
+
+    
+
+    
+        
+    
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="4">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+            Bobo&#39;s Blog
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/avatar.png" alt="Author&#39;s picture"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="4">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar.png" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">Bobo Lin</h4>
+                
+                    <h5 class="sidebar-profile-bio"></h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
+                            
+                            rel="noopener"
+                            title="Home"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
+                            
+                            rel="noopener"
+                            title="Categories"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
+                            
+                            rel="noopener"
+                            title="Tags"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
+                            
+                            rel="noopener"
+                            title="Archives"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="About"
+                        >
+                        <i class="sidebar-button-icon fas fa-anchor" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/BoboLin0624"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://www.linkedin.com/in/chia-an-lin-ba2a03218/"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="LinkedIn"
+                        >
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="4"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Project - Expense Tracker
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2021-05-12T10:18:33+08:00">
+	
+		    May 12, 2021
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Project/">Project</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <h4 id="Why-this-project"><a href="#Why-this-project" class="headerlink" title="Why this project"></a>Why this project</h4><p>在學習後端開發的路途中，CRUD (Create, Read, Update, Delete) 以及資料的處理是學習的必經路程<span id="more"></span>，為了多次的產出練習，除了一開始最常入門的 Todo-List 外，也思考生活上最常使用增刪改查的應用，因為自己每天都有使用記帳 app，所以也因此實作了簡單的 Web 版本。</p>
+<h4 id="Using"><a href="#Using" class="headerlink" title="Using"></a>Using</h4><p>後端：Node.js + Express.js<br>登入機制： passport.js<br>資料庫：MongoDB + mongoose<br>前端： express-handlebars / Bootstrap<br>版本：Github<br>部署：heroku</p>
+<h4 id="Challenges-and-sharing"><a href="#Challenges-and-sharing" class="headerlink" title="Challenges and sharing"></a>Challenges and sharing</h4><p>Bootstrap 的排版與 CRUD 的基本功能撰寫上，因為練習較多次的關係，相對是能掌握的部分！</p>
+<p>但在 filter 分類的資料處理上，心中想著要考量若資料量過多造成的效能問題，所以就選擇 mongoose 提供的 aggregate 的方法，但一開始使用時並沒有看太多細節，後面要加上年/月的篩選條件優化時，就遇到了無法同時兼顧兩邊條件的設定，在觀摩了網路許多的實作經驗以及查找 aggregate 眾多語法後，才找了 $ne 來表示若某條件沒有被設定時，就找出全部資料的方式，有看到許多分享經驗的人說：程式有趣的地方在於有很多種方式可以達到一樣的效果或功能。而給自己的心態是，不求一下子就寫出最乾淨、俐落的程式碼，但求能一直保持學習精進的熱忱。</p>
+<p>另一個是 seeder 的建立，因為有關聯的資料表，所以必須先執行 user 的建立，接著再建立資料對應給 user，使用 forEach去迭代 json 檔案，就會發生種子資料沒有建立完全的狀況，因此才知道是非同步處理的議題，程式寫到越後面執行的 task 越多，就開始面對了這個大魔王，目前對於非同步本身的概念上是理解的，但對於實作上的用法還是需要查找許多網路資料來跟著用，這次選用的是 Promise.all，在 Promise.all 中建立好一組陣列資料，來保證陣列裡的內容全部執行完畢再結束 seeder。</p>
+<p>在使用 passport.js 提供身份驗證機制的 middleware 時，體會到練習使用第三方套件也是很重要的事，可以方便進行整個全局開發。從需求來規劃需要的功能，接著搜尋套件，閱讀大量文件，實作出想要的功能，一開始對於密麻的文件會完全不知道怎麼下手，遇到很多的挫折，所幸現在網路資源很多，不斷觀摩、嘗試，最後實作出來的成果也是會充滿不少成就感。</p>
+<p><strong>expense-tracker 專案的 <a target="_blank" rel="noopener" href="https://github.com/bobolin0624/expense-tracker">GitHub</a> 與 <a target="_blank" rel="noopener" href="https://intense-spire-30373.herokuapp.com/users/login">Heroku</a></strong></p>
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Express-js/" rel="tag">Express.js</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/MongoDB/" rel="tag">MongoDB</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/Node-js/" rel="tag">Node.js</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2021/05/12/note-js-event-loop/"
+                    data-tooltip="JavaScript Note - 淺談 Event Loop"
+                    aria-label="PREVIOUS: JavaScript Note - 淺談 Event Loop"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2021/05/12/project-expense-tracker/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2021/05/12/project-expense-tracker/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2022 Bobo Lin. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2021/05/12/note-js-event-loop/"
+                    data-tooltip="JavaScript Note - 淺談 Event Loop"
+                    aria-label="PREVIOUS: JavaScript Note - 淺談 Event Loop"
+                >
+                    
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2021/05/12/project-expense-tracker/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2021/05/12/project-expense-tracker/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2021/05/12/project-expense-tracker/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2021/05/12/project-expense-tracker/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar.png" alt="Author&#39;s picture"/>
+        
+            <h4 id="about-card-name">Bobo Lin</h4>
+        
+            <div id="about-card-bio"><p>Hi, I am a Back End developer with industry experience building web applications. I specialize in Node.js and Express.js.</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Taipei, Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover-sea-1.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-dzsjyemehxeuofs4ljfjpnna7zbagpa4smfrsqws1xo2f1dmq4uk3br7lc0n.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+    
+
+
+
+
+    </body>
+</html>

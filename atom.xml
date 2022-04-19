@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Bobo&#39;s Blog</title>
+  
+  
+  <link href="https://bobolin0624.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://bobolin0624.github.io/"/>
+  <updated>2022-04-19T05:54:02.940Z</updated>
+  <id>https://bobolin0624.github.io/</id>
+  
+  <author>
+    <name>Bobo Lin</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Note - 淺談使用者驗證 (user authentication)</title>
+    <link href="https://bobolin0624.github.io/2021/08/06/note-user-authentication/"/>
+    <id>https://bobolin0624.github.io/2021/08/06/note-user-authentication/</id>
+    <published>2021-08-06T00:48:20.000Z</published>
+    <updated>2022-04-19T05:54:02.940Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>每天瀏覽無數網站，相信大家都有在進入網站被彈跳視窗要求登入過的經驗。<br>當我們要到特定頁面或使用功能時，網站的伺服器收到了請求 (request)，<span id="more"></span>此時 server 會去確認我們有沒有權限可以瀏覽，如果要使用的功能需要會員才能使用，此時我們就會被要求進行登入，如果當下你還沒有註冊過網站（意指資料還沒有被儲存在網站伺服器的資料庫中），那就必須先註冊才行。</p></blockquote><br><p>而 HTTP 本身是無狀態的服務，，每次收到一筆新請求想要進入該網站，都會認為是一個新的人（就像沒有會員制度的健身房一樣，運動的人來來去去，場館人員也不會知道你昨天來過），在這樣的狀況下，解決方法就是運用 session &amp; cookie 機制讓請求進來的人帶著憑證（建立會員制)。</p><p><em>註冊：提供個人資料，然後向網站請求註冊，這時候伺服器會向資料庫確認你的資料有沒有存在於資料庫中，如果沒有，就會建立一筆新資料。</em></p><ul><li>下定決心要減肥了，第一步是加入健身房的會員，填寫完個人資料還有拿出錢包後💵，櫃檯人員先到系統查詢了一下，發現會員中沒有你的資料，於是他幫你建立了一筆新資料，新做一張專屬於你的會員卡。</li></ul><p><em>登入：註冊後進行登入就可以使用網站功能了，登入時必須提供 ID及密碼給網站，讓伺服器到資料庫驗證帳號密碼，比對成功，這時回應成功的時候伺服器會建立 session，並傳送一組 session id，這組 session id 會保存在瀏覽器的 cookie 上，且必須加密保護。</em></p><ul><li>加入會員的隔天，馬上就到健身房報到，將會員卡交給櫃台人員驗證身份(驗證帳號密碼)，確認你是本人後(比對成功)，給了你一條毛巾和手環 (session id)，告知你在今天穿梭不同場館入口時都要出示手環，這時候你就可以靠著手上的手環選擇去有氧教室或是去重訓區。</li></ul><p><em>登出：離開網站時，為了避免被人使用，做了登出的動作，這時登出後 session id 會被消滅掉，下次再進入網站時，伺服器需要再重新驗證你的身份，因此必須重新登入。</em></p><ul><li>終於將今天的健身菜單完成了，在梳洗完畢後準備離開健身房，將手環歸還給櫃檯人員(消滅 session id)，如果下次要再進來時就必須再拿出會員卡讓人員重新比對(登入)，拿到新的手環後才能入場。</li></ul><p><img src="https://i.imgur.com/Q2wERwY.png" alt="圖解 user authentication"></p><p><code>(初學程式筆記，若文中有誤還請不吝指教 ）</code><span class="github-emoji"><span>🤓</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f913.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>]]></content>
+    
+    
+    <summary type="html">&lt;blockquote&gt;
+&lt;p&gt;每天瀏覽無數網站，相信大家都有在進入網站被彈跳視窗要求登入過的經驗。&lt;br&gt;當我們要到特定頁面或使用功能時，網站的伺服器收到了請求 (request)，&lt;/p&gt;&lt;/blockquote&gt;</summary>
+    
+    
+    
+    <category term="Note" scheme="https://bobolin0624.github.io/categories/Note/"/>
+    
+    
+    <category term="session" scheme="https://bobolin0624.github.io/tags/session/"/>
+    
+    <category term="cookie" scheme="https://bobolin0624.github.io/tags/cookie/"/>
+    
+    <category term="authentication" scheme="https://bobolin0624.github.io/tags/authentication/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript Note - 淺談 Event Loop</title>
+    <link href="https://bobolin0624.github.io/2021/05/12/note-js-event-loop/"/>
+    <id>https://bobolin0624.github.io/2021/05/12/note-js-event-loop/</id>
+    <published>2021-05-12T02:18:33.000Z</published>
+    <updated>2022-04-19T05:54:07.860Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="從-Javascript-的特性說起：Single-Threaded"><a href="#從-Javascript-的特性說起：Single-Threaded" class="headerlink" title="從 Javascript 的特性說起：Single Threaded"></a>從 Javascript 的特性說起：Single Threaded</h4><p>Javascript 是一種單線程（單執行緒）的語言，程式碼會在 Stack 中被一一執行。</p><span id="more"></span><p><del>講中文：</del><br>一次只能做一件事</p><h5 id="又有新的名詞了：堆疊-Stack"><a href="#又有新的名詞了：堆疊-Stack" class="headerlink" title="又有新的名詞了：堆疊 (Stack)"></a>又有新的名詞了：堆疊 (Stack)</h5><p>維基百科說：堆疊（stack）又稱為棧或堆棧，是電腦科學中的一種抽象資料型別，只允許在有序的線性資料集合的一端（稱為堆疊頂端，top）進行加入資料（push）和移除資料（pop）的運算。因而按照後進先出（LIFO, Last In First Out）的原理運作。</p><p><del>講中文：</del><br>試看下圖生活中發生的例子，最先洗好的杯子放最下面，但要用的時候是拿最上面最後洗好的杯子，堆疊即是如此。</p><p><img src="https://miro.medium.com/max/1400/0*7DZA8far6AEXEKIP" alt="Photo by Crissy Jarvis on Unsplash"></p><blockquote><p>photo from medium - by Crissy Jarvis on Unsplash</p></blockquote><h5 id="阻塞-blocking"><a href="#阻塞-blocking" class="headerlink" title="阻塞 (blocking)"></a>阻塞 (blocking)</h5><p>上面提到一次做一件事，而如果這件事又要做很久，後面的事情就只能一直等，這樣的情況就稱為阻塞行為。</p><hr><h4 id="非同步處理-Asynchronous-Callbacks-＆-Task-Queue-amp-Event-Loop"><a href="#非同步處理-Asynchronous-Callbacks-＆-Task-Queue-amp-Event-Loop" class="headerlink" title="非同步處理 (Asynchronous Callbacks) ＆ Task Queue &amp; Event Loop"></a>非同步處理 (Asynchronous Callbacks) ＆ Task Queue &amp; Event Loop</h4><p>如何解決上述的情況呢？</p><p>JavaScript 的 runtime engine 一次只能做一件事，但瀏覽器可以同時執行很多件事，而且提供了 API 讓大家使用，讓程式可以透過 event loop 搭配非同步處理達到同時處理多件事。<br>整體的流程大概是這樣：</p><p>下面的有一段 JS 的程式碼，JS 處理程序會先依序將程式碼放入 Stack 中執行，所以執行了 <code>console.log(‘hello’)</code>，印出了 hello</p><p><img src="https://miro.medium.com/max/1400/1*NzpU75qlUlwBZtKUlnaP6A.png"></p><p>接著 Stack 執行 setTimeout function，但是 setTimeout 是屬於瀏覽器提供的 api，因此會被放到 web apis 的計時器中，等到設定的時間到了後（注意即使設定 0 秒還是會走這樣的流程），再把它放到 task queue 中等待，等到所有 Stack 清空後，才會立即執行。</p><p><img src="https://miro.medium.com/max/1400/1*RVbrJMFlCVUHZe-qHuPg7w.png"></p><p>所以接下來，會先執行 <code>console.log(‘World’)</code>，印出 World（注意 task queue 中的 setTimeout 還在等待中）。</p><p><img src="https://miro.medium.com/max/1400/1*HUp4Y2quWzqR1zOFAyxOHw.png"></p><p>最後進入 event loop ，event loop 會去判斷如果 stack 已經沒有東西就把 task queue 中的項目依序放到 stack 當中，執行該做的事。</p><p><img src="https://miro.medium.com/max/1400/1*CwT05pQah-f5V4AkJha1HA.png"></p><hr><h5 id="小結"><a href="#小結" class="headerlink" title="小結"></a>小結</h5><blockquote><p><em><strong>事件迴圈 Event Loop</strong></em></p></blockquote><p>是個監測員，監測 Call Stack 及 task queue</p><p>如果 stack 沒事件執行，且 task queue 有東西，那就將 task queue 移到 stack 執行。</p><p>如此不斷循環~~~~~</p><p><em>Reference</em></p><div class="video-container"><iframe src="https://www.youtube.com/embed/8aGhZQkoFbQ" frameborder="0" loading="lazy" allowfullscreen=""></iframe></div><p><a href="https://pjchender.blogspot.com/2017/08/javascript-learn-event-loop-stack-queue.html">[筆記] 理解 JavaScript 中的事件循環、堆疊、佇列和併發模式（Learn event loop, stack, queue, and concurrency mode of JavaScript in depth）</a></p><p><code>(初學程式筆記，若文中有誤還請不吝指教 ）</code><span class="github-emoji"><span>🤓</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f913.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>]]></content>
+    
+    
+    <summary type="html">&lt;h4 id=&quot;從-Javascript-的特性說起：Single-Threaded&quot;&gt;&lt;a href=&quot;#從-Javascript-的特性說起：Single-Threaded&quot; class=&quot;headerlink&quot; title=&quot;從 Javascript 的特性說起：Single Threaded&quot;&gt;&lt;/a&gt;從 Javascript 的特性說起：Single Threaded&lt;/h4&gt;&lt;p&gt;Javascript 是一種單線程（單執行緒）的語言，程式碼會在 Stack 中被一一執行。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Note" scheme="https://bobolin0624.github.io/categories/Note/"/>
+    
+    
+    <category term="JavaScript" scheme="https://bobolin0624.github.io/tags/JavaScript/"/>
+    
+    <category term="event Loop" scheme="https://bobolin0624.github.io/tags/event-Loop/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Project - Expense Tracker</title>
+    <link href="https://bobolin0624.github.io/2021/05/12/project-expense-tracker/"/>
+    <id>https://bobolin0624.github.io/2021/05/12/project-expense-tracker/</id>
+    <published>2021-05-12T02:18:33.000Z</published>
+    <updated>2022-04-19T07:07:55.899Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="Why-this-project"><a href="#Why-this-project" class="headerlink" title="Why this project"></a>Why this project</h4><p>在學習後端開發的路途中，CRUD (Create, Read, Update, Delete) 以及資料的處理是學習的必經路程<span id="more"></span>，為了多次的產出練習，除了一開始最常入門的 Todo-List 外，也思考生活上最常使用增刪改查的應用，因為自己每天都有使用記帳 app，所以也因此實作了簡單的 Web 版本。</p><h4 id="Using"><a href="#Using" class="headerlink" title="Using"></a>Using</h4><p>後端：Node.js + Express.js<br>登入機制： passport.js<br>資料庫：MongoDB + mongoose<br>前端： express-handlebars / Bootstrap<br>版本：Github<br>部署：heroku</p><h4 id="Challenges-and-sharing"><a href="#Challenges-and-sharing" class="headerlink" title="Challenges and sharing"></a>Challenges and sharing</h4><p>Bootstrap 的排版與 CRUD 的基本功能撰寫上，因為練習較多次的關係，相對是能掌握的部分！</p><p>但在 filter 分類的資料處理上，心中想著要考量若資料量過多造成的效能問題，所以就選擇 mongoose 提供的 aggregate 的方法，但一開始使用時並沒有看太多細節，後面要加上年/月的篩選條件優化時，就遇到了無法同時兼顧兩邊條件的設定，在觀摩了網路許多的實作經驗以及查找 aggregate 眾多語法後，才找了 $ne 來表示若某條件沒有被設定時，就找出全部資料的方式，有看到許多分享經驗的人說：程式有趣的地方在於有很多種方式可以達到一樣的效果或功能。而給自己的心態是，不求一下子就寫出最乾淨、俐落的程式碼，但求能一直保持學習精進的熱忱。</p><p>另一個是 seeder 的建立，因為有關聯的資料表，所以必須先執行 user 的建立，接著再建立資料對應給 user，使用 forEach去迭代 json 檔案，就會發生種子資料沒有建立完全的狀況，因此才知道是非同步處理的議題，程式寫到越後面執行的 task 越多，就開始面對了這個大魔王，目前對於非同步本身的概念上是理解的，但對於實作上的用法還是需要查找許多網路資料來跟著用，這次選用的是 Promise.all，在 Promise.all 中建立好一組陣列資料，來保證陣列裡的內容全部執行完畢再結束 seeder。</p><p>在使用 passport.js 提供身份驗證機制的 middleware 時，體會到練習使用第三方套件也是很重要的事，可以方便進行整個全局開發。從需求來規劃需要的功能，接著搜尋套件，閱讀大量文件，實作出想要的功能，一開始對於密麻的文件會完全不知道怎麼下手，遇到很多的挫折，所幸現在網路資源很多，不斷觀摩、嘗試，最後實作出來的成果也是會充滿不少成就感。</p><p><strong>expense-tracker 專案的 <a href="https://github.com/bobolin0624/expense-tracker">GitHub</a> 與 <a href="https://intense-spire-30373.herokuapp.com/users/login">Heroku</a></strong></p>]]></content>
+    
+    
+    <summary type="html">&lt;h4 id=&quot;Why-this-project&quot;&gt;&lt;a href=&quot;#Why-this-project&quot; class=&quot;headerlink&quot; title=&quot;Why this project&quot;&gt;&lt;/a&gt;Why this project&lt;/h4&gt;&lt;p&gt;在學習後端開發的路途中，CRUD (Create, Read, Update, Delete) 以及資料的處理是學習的必經路程&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Project" scheme="https://bobolin0624.github.io/categories/Project/"/>
+    
+    
+    <category term="Node.js" scheme="https://bobolin0624.github.io/tags/Node-js/"/>
+    
+    <category term="Express.js" scheme="https://bobolin0624.github.io/tags/Express-js/"/>
+    
+    <category term="MongoDB" scheme="https://bobolin0624.github.io/tags/MongoDB/"/>
+    
+  </entry>
+  
+</feed>
