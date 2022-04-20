@@ -19,7 +19,7 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bobo Lin","sameAs":["https://github.com/BoboLin0624","https://www.linkedin.com/in/chia-an-lin-ba2a03218/"],"image":"avatar.png"},"articleBody":"Why this project在學習後端開發的路途中，CRUD (Create, Read, Update, Delete) 以及資料的處理是學習的必經路程，為了多次的產出練習，除了一開始最常入門的 Todo-List 外，也思考生活上最常使用增刪改查的應用，因為自己每天都有使用記帳 app，所以也因此實作了簡單的 Web 版本。\nUsing後端：Node.js + Express.js登入機制： passport.js資料庫：MongoDB + mongoose前端： express-handlebars / Bootstrap版本：Github部署：heroku\nChallenges and sharingBootstrap 的排版與 CRUD 的基本功能撰寫上，因為練習較多次的關係，相對是能掌握的部分！\n但在 filter 分類的資料處理上，心中想著要考量若資料量過多造成的效能問題，所以就選擇 mongoose 提供的 aggregate 的方法，但一開始使用時並沒有看太多細節，後面要加上年/月的篩選條件優化時，就遇到了無法同時兼顧兩邊條件的設定，在觀摩了網路許多的實作經驗以及查找 aggregate 眾多語法後，才找了 $ne 來表示若某條件沒有被設定時，就找出全部資料的方式，有看到許多分享經驗的人說：程式有趣的地方在於有很多種方式可以達到一樣的效果或功能。而給自己的心態是，不求一下子就寫出最乾淨、俐落的程式碼，但求能一直保持學習精進的熱忱。\n另一個是 seeder 的建立，因為有關聯的資料表，所以必須先執行 user 的建立，接著再建立資料對應給 user，使用 forEach去迭代 json 檔案，就會發生種子資料沒有建立完全的狀況，因此才知道是非同步處理的議題，程式寫到越後面執行的 task 越多，就開始面對了這個大魔王，目前對於非同步本身的概念上是理解的，但對於實作上的用法還是需要查找許多網路資料來跟著用，這次選用的是 Promise.all，在 Promise.all 中建立好一組陣列資料，來保證陣列裡的內容全部執行完畢再結束 seeder。\n在使用 passport.js 提供身份驗證機制的 middleware 時，體會到練習使用第三方套件也是很重要的事，可以方便進行整個全局開發。從需求來規劃需要的功能，接著搜尋套件，閱讀大量文件，實作出想要的功能，一開始對於密麻的文件會完全不知道怎麼下手，遇到很多的挫折，所幸現在網路資源很多，不斷觀摩、嘗試，最後實作出來的成果也是會充滿不少成就感。\nexpense-tracker 專案的 GitHub 與 Heroku\n","dateCreated":"2021-08-08T10:18:33+08:00","dateModified":"2022-04-19T16:42:32+08:00","datePublished":"2021-08-08T10:18:33+08:00","description":"Why this project在學習後端開發的路途中，CRUD (Create, Read, Update, Delete) 以及資料的處理是學習的必經路程","headline":"Project - Expense Tracker","image":["//d1u9biwaxjngwg.cloudfront.net/cover-image-showcase/city-750.jpg"],"mainEntityOfPage":{"@type":"WebPage","@id":"https://bobolin0624.github.io/2021/08/08/project-expense-tracker/"},"publisher":{"@type":"Organization","name":"Bobo Lin","sameAs":["https://github.com/BoboLin0624","https://www.linkedin.com/in/chia-an-lin-ba2a03218/"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"https://bobolin0624.github.io/2021/08/08/project-expense-tracker/","keywords":"Node.js, Express.js, MongoDB","thumbnailUrl":"//d1u9biwaxjngwg.cloudfront.net/cover-image-showcase/city-750.jpg"}</script>
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bobo Lin","sameAs":["https://github.com/BoboLin0624","https://www.linkedin.com/in/chia-an-lin-ba2a03218/"],"image":"avatar.png"},"articleBody":"Why this project在學習後端開發的路途中，CRUD (Create, Read, Update, Delete) 以及資料的處理是學習的必經路程，為了多次的產出練習，除了一開始最常入門的 Todo-List 外，也思考生活上最常使用增刪改查的應用，因為自己每天都有使用記帳 app，所以也因此實作了簡單的 Web 版本。\nUsing後端：Node.js + Express.js登入機制： passport.js資料庫：MongoDB + mongoose前端： express-handlebars / Bootstrap版本：Github部署：heroku\nChallenges and sharingBootstrap 的排版與 CRUD 的基本功能撰寫上，因為練習較多次的關係，相對是能掌握的部分！\n但在 filter 分類的資料處理上，心中想著要考量若資料量過多造成的效能問題，所以就選擇 mongoose 提供的 aggregate 的方法，但一開始使用時並沒有看太多細節，後面要加上年/月的篩選條件優化時，就遇到了無法同時兼顧兩邊條件的設定，在觀摩了網路許多的實作經驗以及查找 aggregate 眾多語法後，才找了 $ne 來表示若某條件沒有被設定時，就找出全部資料的方式，有看到許多分享經驗的人說：程式有趣的地方在於有很多種方式可以達到一樣的效果或功能。而給自己的心態是，不求一下子就寫出最乾淨、俐落的程式碼，但求能一直保持學習精進的熱忱。\n另一個是 seeder 的建立，因為有關聯的資料表，所以必須先執行 user 的建立，接著再建立資料對應給 user，使用 forEach去迭代 json 檔案，就會發生種子資料沒有建立完全的狀況，因此才知道是非同步處理的議題，程式寫到越後面執行的 task 越多，就開始面對了這個大魔王，目前對於非同步本身的概念上是理解的，但對於實作上的用法還是需要查找許多網路資料來跟著用，這次選用的是 Promise.all，在 Promise.all 中建立好一組陣列資料，來保證陣列裡的內容全部執行完畢再結束 seeder。\n在使用 passport.js 提供身份驗證機制的 middleware 時，體會到練習使用第三方套件也是很重要的事，可以方便進行整個全局開發。從需求來規劃需要的功能，接著搜尋套件，閱讀大量文件，實作出想要的功能，一開始對於密麻的文件會完全不知道怎麼下手，遇到很多的挫折，所幸現在網路資源很多，不斷觀摩、嘗試，最後實作出來的成果也是會充滿不少成就感。\nexpense-tracker 專案的 GitHub 與 Heroku\n","dateCreated":"2021-08-08T10:18:33+08:00","dateModified":"2022-04-20T08:51:07+08:00","datePublished":"2021-08-08T10:18:33+08:00","description":"Why this project在學習後端開發的路途中，CRUD (Create, Read, Update, Delete) 以及資料的處理是學習的必經路程","headline":"Project - Expense Tracker","image":["https://github.com/bobolin0624/expense-tracker/raw/main/expense-tracker-index.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"https://bobolin0624.github.io/2021/08/08/project-expense-tracker/"},"publisher":{"@type":"Organization","name":"Bobo Lin","sameAs":["https://github.com/BoboLin0624","https://www.linkedin.com/in/chia-an-lin-ba2a03218/"],"image":"avatar.png","logo":{"@type":"ImageObject","url":"avatar.png"}},"url":"https://bobolin0624.github.io/2021/08/08/project-expense-tracker/","keywords":"Node.js, Express.js, MongoDB","thumbnailUrl":"https://github.com/bobolin0624/expense-tracker/raw/main/expense-tracker-index.png"}</script>
     <meta name="description" content="Why this project在學習後端開發的路途中，CRUD (Create, Read, Update, Delete) 以及資料的處理是學習的必經路程">
 <meta property="og:type" content="blog">
 <meta property="og:title" content="Project - Expense Tracker">
@@ -28,7 +28,7 @@
 <meta property="og:description" content="Why this project在學習後端開發的路途中，CRUD (Create, Read, Update, Delete) 以及資料的處理是學習的必經路程">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2021-08-08T02:18:33.000Z">
-<meta property="article:modified_time" content="2022-04-19T08:42:32.255Z">
+<meta property="article:modified_time" content="2022-04-20T00:51:07.374Z">
 <meta property="article:author" content="Bobo Lin">
 <meta property="article:tag" content="Node.js">
 <meta property="article:tag" content="Express.js">
@@ -42,8 +42,8 @@
         <meta property="og:image" content="https://bobolin0624.github.io/assets/images/avatar.png"/>
     
     
-        <meta property="og:image" content="//d1u9biwaxjngwg.cloudfront.net/cover-image-showcase/city-750.jpg"/>
-        <meta class="swiftype" name="image" data-type="enum" content="//d1u9biwaxjngwg.cloudfront.net/cover-image-showcase/city-750.jpg"/>
+        <meta property="og:image" content="https://github.com/bobolin0624/expense-tracker/raw/main/expense-tracker-index.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://github.com/bobolin0624/expense-tracker/raw/main/expense-tracker-index.png"/>
     
     
     
@@ -74,7 +74,7 @@
         
     
 
-<header id="header" data-behavior="4">
+<header id="header" data-behavior="5">
     <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
     <div class="header-title">
         <a
@@ -107,7 +107,7 @@
         
     
 
-<nav id="sidebar" data-behavior="4">
+<nav id="sidebar" data-behavior="5">
     <div class="sidebar-container">
         
             <div class="sidebar-profile">
@@ -238,7 +238,7 @@
 </nav>
 
             
-            <div id="main" data-behavior="4"
+            <div id="main" data-behavior="5"
                  class="
                         hasCoverMetaIn
                         ">
@@ -395,7 +395,7 @@
 
             </div>
             
-                <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
                     <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
@@ -479,7 +479,7 @@
 
                 </div>
                 
-    <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
         <i id="btn-close-shareoptions" class="fa fa-times"></i>
         <ul class="share-options">
             
