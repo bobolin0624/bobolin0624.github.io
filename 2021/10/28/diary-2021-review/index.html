@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Bobo&#39;s Blog">
-    <title>Project - AWS 服務初體驗 - Bobo&#39;s Blog</title>
+    <title>雜記 - 回顧 - Bobo&#39;s Blog</title>
     <meta name="author" content="Bobo Lin">
     
         <meta name="keywords" content="hexo,JavaScript,Node.js,">
@@ -19,27 +19,24 @@
             <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
         
     
-    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bobo Lin","sameAs":["https://github.com/BoboLin0624","https://www.linkedin.com/in/chia-an-lin-ba2a03218/"],"image":"avatar-tea.jpg"},"articleBody":"使用 AWS Elastic Beanstalk 與 RDS 服務部署網站\n\n\n\nWhy AWS?部署在部分公司也成了工程師必備的技能之一，通常最常看到的就是 AWS ，當然還有 GCP 與 AZURE，不過 AWS 是這三大最早出現的，所以就先挑他來做練習。\nAWS 看起來包山包海的，所以他到底是什麼？ 官網寫著：\nAmazon Web Services 是全球最全面和廣泛採納的雲端平台，透過全球資料中心提供超過 200 項功能完整的服務。數百萬個客戶 — 包括成長最快的新創公司、最大型企業以及領先的政府機構 — 都使用 AWS 來降低成本、變得更靈活，且更迅速地創新。\n\n我想…就是提供各式各樣不同的雲端相關服務囉！\n開始吧基本上只要在 Google 輸入「Node.js 部署 AWS」應該點到這裡 =&gt; https://aws.amazon.com/tw/getting-started/hands-on/deploy-nodejs-web-app/\n官網甚至提供中文的教學步驟 📖，我是依照使用「AWS Elastic Beanstalk 和 Amazon DynamoDB 啟動 Node.js Web 應用程式環境的教學」開始部署之旅，不過因為這次練習部署的站我使用的是 MySQL，所以我最後使用的是 Amazon RDS 的資料庫做連線，如果是使用 NoSQL 的話就使用 DynamoDB 即可。\nElastic Beanstalk 是 AWS 幫助開發者把 EC2 跟其他部署的建設基礎都處理好的類 PaaS 服務（理解有誤的話還有望前輩們指教），所以只要選好 server 方案、平台，上傳程式碼，就可以輕鬆部署完成。\n因為部署並不複雜，且官網都有詳細說明，所以這篇就沒有一一寫出步驟，主要挑出有遇到的幾個小問題來分享：\n\n\n\n.env 檔案 — 環境設定\n\n這次練習的專案我有使用 Imgur 的 API 來做上傳圖片，如果專案有需要設定環境參數的話記得到「組態」的「環境屬性」做設定\n\n\n\n\n有錢才能任性：建立 Database — region 也很重要\n\n我在本機先使用了 MySQL 做開發，所以就選擇使用 Amazon RDS 來與應用程式串接\n\n這邊遇到的小坑是，我一開始建立專案選在 region 選了亞太地區(大阪)，結果建立 Database 的時候，怎麼選都沒看到 db.t2.micro 的免費方案（換了 MySQL 版本也是），最後請教了一下有經驗的人才發現，原來 region 不同服務跟計價也會有差異，後來改選到亞太地區(東京)才順利建立了免費試用的資料庫（目前免費專案也是只有第一年 750 hr / month 哦，之後要隨時注意一下 billing，以免被收費~)\n\n\n\n專案部署設定\n\nElastic Beanstalk 部署可以用上傳檔案的方式，似乎也可以使用 EB CLI 與 Docker 的方式部署（之後再找機會嘗試），這次我是先使用了壓縮專案成 ZIP 檔案上傳的方式部署，專案先將 config.json 檔案的 production 設定完成後，將專案打包上傳，部署完後滿心期待點了網址卻一直出現轉圈圈的狀況，毫無頭緒的我，第一個想法是看 LOG 檔報了什麼錯，但在 AWS 上的 Log 去哪看呢？ 就在「日誌」裡頭，「請求日誌」點下去可以選擇要全部的還是只要 100 行，下載下來是個 ZIP 檔，解壓縮後找到 web.stdout.log 這個檔案，就可以看到 log 了 :+1: \n\n第一次出錯我看到 log 顯示的像是連線錯誤，查看了一下發現在 AWS 上應該是執行 package.json 中 start 腳本，於是我就將設定改成\"start\": \"NODE_ENV=production node app.js\" 重新部署後，網站就成功跑起來了，不過對於這樣的連線問題還是有些疑惑存在，希望未來可以再慢慢補齊觀念。\n這次部署到 AWS 的網站算是個人的 Portfolio [ 全端開發使用 Node.js + Express.js + Handlebars (版型取用網路上免費的 Bootstrap template 來做套版修改) ]，因為免費方案有限制因此純分享就不附上 demo 網址啦～～\n","dateCreated":"2021-10-28T10:23:32+08:00","dateModified":"2022-04-21T10:19:47+08:00","datePublished":"2021-10-28T10:23:32+08:00","description":"使用 AWS Elastic Beanstalk 與 RDS 服務部署網站\n","headline":"Project - AWS 服務初體驗","image":["https://images.cakeresume.com/0PN64/bobo-lin-3d84b1-609f9e/a66aec66-320e-473b-ae24-b4c3567c1d97.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"https://bobolin0624.github.io/2021/10/28/project-aws-deploy-first-time/"},"publisher":{"@type":"Organization","name":"Bobo Lin","sameAs":["https://github.com/BoboLin0624","https://www.linkedin.com/in/chia-an-lin-ba2a03218/"],"image":"avatar-tea.jpg","logo":{"@type":"ImageObject","url":"avatar-tea.jpg"}},"url":"https://bobolin0624.github.io/2021/10/28/project-aws-deploy-first-time/","keywords":"AWS, Elastic Beanstalk, deploy","thumbnailUrl":"https://images.cakeresume.com/0PN64/bobo-lin-3d84b1-609f9e/a66aec66-320e-473b-ae24-b4c3567c1d97.png"}</script>
-    <meta name="description" content="使用 AWS Elastic Beanstalk 與 RDS 服務部署網站">
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bobo Lin","sameAs":["https://github.com/BoboLin0624","https://www.linkedin.com/in/chia-an-lin-ba2a03218/"],"image":"avatar-tea.jpg"},"articleBody":"疫情的衝擊，除了被取消過四次航班外 😿，其餘安好！感恩身旁的人如今還平安健康，這段時間多了許多跟自己的對話，再加上透過旁人的鼓勵，我終於踏出半個舒適圈，認真的考慮工程師的職位。\n\n所有你想做的事，現在就是你此生能最快開始的時間了\n\n師父領進門體會過 w3school、hahow 的線上課程，也曾巴著工程師朋友遠端教學，一直以來都是蜻蜓點水的碰觸程式語言，直到加入了 Bootcamp，才真正開始從基礎概念一路有系統性地前進。我一直在想這跟以前學吉他好像，我以為會五月天的擁抱就可以說我會彈吉他了，直到我真正上了課，爬了好長一段時間的音階才前進到和弦，這才慢慢真正深入的掌握如何彈吉他這件事。\n前期在的 exercise 都還過得去的狀況，算是確立了喜歡 coding 這件事，我自己判定最簡單的方法就是看自己每天起床，會不會對於進度或作業感到厭煩想逃避，心想沒有這樣的念頭至少是不討厭吧～\n後期開始接觸 Express 打造 Web app 及對資料庫 (MongoDB, MySQL) 的操作，慢慢發現自己對於畫面上呈現出正確的邏輯與資料富有成就感，在做 CRUD 時成功改動資料庫的瞬間，也很是滿意，因此沒想太多就選了專攻後端，對於選前/後端我覺得就像大學選科系一樣，一開始會怕後悔，但後來想想，以前我讀了商科，現在不也是來學寫程式了嗎？而我自商科畢業，做的工作所學到的經驗，那些也都不會是浪費，而是成為了養分。\n\n唯一能限制你的，只有你自己\n\n修行在個人從語法拼湊到運算邏輯，從大量手把手實作到靠自己上網找解法，從迴圈卡一天、非同步語法腦袋打結三天，到最後必須兩週完成協作開發專案，當然也有想放棄的時候，特別有段時間在醫院邊 coding 邊陪病的日子（辛酸畫面流出），最感謝的還是自己堅持了下來！\n結束了自學課程，沒有了死線，而職涯漫漫、學海無涯，真正的個人修行才正要開始！\n\n學如逆水行舟，不進則退\n\n\n","dateCreated":"2021-10-28T09:54:01+08:00","dateModified":"2022-04-21T10:09:12+08:00","datePublished":"2021-10-28T09:54:01+08:00","description":"疫情的衝擊，除了被取消過四次航班外 😿，其餘安好！","headline":"雜記 - 回顧","image":["https://cdn.pixabay.com/photo/2020/04/03/19/02/virus-4999857_960_720.png"],"mainEntityOfPage":{"@type":"WebPage","@id":"https://bobolin0624.github.io/2021/10/28/diary-2021-review/"},"publisher":{"@type":"Organization","name":"Bobo Lin","sameAs":["https://github.com/BoboLin0624","https://www.linkedin.com/in/chia-an-lin-ba2a03218/"],"image":"avatar-tea.jpg","logo":{"@type":"ImageObject","url":"avatar-tea.jpg"}},"url":"https://bobolin0624.github.io/2021/10/28/diary-2021-review/","thumbnailUrl":"https://cdn.pixabay.com/photo/2020/04/03/19/02/virus-4999857_960_720.png"}</script>
+    <meta name="description" content="疫情的衝擊，除了被取消過四次航班外 😿，其餘安好！">
 <meta property="og:type" content="blog">
-<meta property="og:title" content="Project - AWS 服務初體驗">
-<meta property="og:url" content="https://bobolin0624.github.io/2021/10/28/project-aws-deploy-first-time/index.html">
+<meta property="og:title" content="雜記 - 回顧">
+<meta property="og:url" content="https://bobolin0624.github.io/2021/10/28/diary-2021-review/index.html">
 <meta property="og:site_name" content="Bobo&#39;s Blog">
-<meta property="og:description" content="使用 AWS Elastic Beanstalk 與 RDS 服務部署網站">
+<meta property="og:description" content="疫情的衝擊，除了被取消過四次航班外 😿，其餘安好！">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://github.githubassets.com/images/icons/emoji/unicode/1f4d6.png?v8">
-<meta property="og:image" content="https://miro.medium.com/max/700/1*zht_hrS0BTuhRSkPz-umUA.png">
-<meta property="og:image" content="https://miro.medium.com/max/700/1*WhnG6-opD3MHWYJD62eQKw.png">
-<meta property="og:image" content="https://miro.medium.com/max/700/1*H5fU4Fwa3wxJ8Vms32kjnA.png">
-<meta property="og:image" content="https://miro.medium.com/max/700/1*6eU6jvDlox75AR703Yn4jw.png">
-<meta property="article:published_time" content="2021-10-28T02:23:32.000Z">
-<meta property="article:modified_time" content="2022-04-21T02:19:47.690Z">
+<meta property="og:image" content="https://github.githubassets.com/images/icons/emoji/unicode/1f63f.png?v8">
+<meta property="og:image" content="https://lh3.googleusercontent.com/eWbOMpzgp9oiH_9PaaufWw4q_2EFTPmUhp63uLqWrE_QsYHM5p5Ezl36-YIKLkNCPONCLAzLcu9r3R6POrtrigf_ZXa-14JQTBJvSteLcFSgsYc1zrYWmmLBaxsgSub13YG9PBlC7duThSsHopONi-kUGyq9AhR5WxtRZW119O-u7utAsbESdDJ_AppcahBGDj0_vnEZiyV5z6LoMXyOe9oanV4PuY_4nSiKDqyUcr0m_cAMrHTe6Y6rb7exKl4F1W06ce_Z2Ccu2Spxs0r1-WfwTeg9QcpUudQKiPzp8A9akULJV-x2yZqcH02I_2eDF0F-qxi9S5-3fa6lyRgF3s-7EpMOdhOzC961xZUmuECRojoMVT0KECjWfOG156mRXD9rvug-PCzaEZEb2k9krO6RvoLmySrHE7YbVWKixiqXsBeoJtzna8pCc96IWJ9DOpvWo31WfWpRaqssxa2kDLpJQAvxkq98isRm2lGuFcXgm6sX0uDOlzjMgVkZhC_hCdb-qUzmYvCp31_RnwM2eX5BNOedRo4t3iOxLyr-fsJNmS87zCpA059KWVxRG-FWbN3O1Ernw_zNZW1kyXVkbndJY5D73rolrhqLI4WI3eWP7wZtUvgOeSYVA3gVkuS0MbPOYh9AqejSAXRcWLqiPANe_9qMgyDKHIyOas71zgE3bfNZ3iJW1OxPP8LIR3jQDH2xhhAMDLQodU1eimfDLhuuSeKRlg3IvhYmG0HURyQSzeJHkd1Q4z9LZhDaugNgHkw5_IYbLlDgT_qpnS0fCkbZ3CWXtgrcKjbu=w996-h739-no?authuser=1">
+<meta property="article:published_time" content="2021-10-28T01:54:01.000Z">
+<meta property="article:modified_time" content="2022-04-21T02:09:12.739Z">
 <meta property="article:author" content="Bobo Lin">
-<meta property="article:tag" content="AWS">
-<meta property="article:tag" content="Elastic Beanstalk">
-<meta property="article:tag" content="deploy">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Node.js">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github.githubassets.com/images/icons/emoji/unicode/1f4d6.png?v8">
+<meta name="twitter:image" content="https://github.githubassets.com/images/icons/emoji/unicode/1f63f.png?v8">
     
     
         
@@ -48,8 +45,8 @@
         <meta property="og:image" content="https://bobolin0624.github.io/assets/images/avatar-tea.jpg"/>
     
     
-        <meta property="og:image" content="https://images.cakeresume.com/0PN64/bobo-lin-3d84b1-609f9e/a66aec66-320e-473b-ae24-b4c3567c1d97.png"/>
-        <meta class="swiftype" name="image" data-type="enum" content="https://images.cakeresume.com/0PN64/bobo-lin-3d84b1-609f9e/a66aec66-320e-473b-ae24-b4c3567c1d97.png"/>
+        <meta property="og:image" content="https://cdn.pixabay.com/photo/2020/04/03/19/02/virus-4999857_960_720.png"/>
+        <meta class="swiftype" name="image" data-type="enum" content="https://cdn.pixabay.com/photo/2020/04/03/19/02/virus-4999857_960_720.png"/>
     
     
     
@@ -255,12 +252,12 @@
         <div class="post-header main-content-wrap text-left">
     
         <h1 class="post-title">
-            Project - AWS 服務初體驗
+            雜記 - 回顧
         </h1>
     
     
         <div class="post-meta">
-    <time datetime="2021-10-28T10:23:32+08:00">
+    <time datetime="2021-10-28T09:54:01+08:00">
 	
 		    Oct 28, 2021
     	
@@ -268,7 +265,7 @@
     
         <span>in </span>
         
-    <a class="category-link" href="/categories/Project/">Project</a>
+    <a class="category-link" href="/categories/Diary/">Diary</a>
 
 
     
@@ -280,43 +277,22 @@
     
     <div class="post-content markdown">
         <div class="main-content-wrap">
-            <p>使用 AWS <a target="_blank" rel="noopener" href="https://aws.amazon.com/tw/elasticbeanstalk/">Elastic Beanstalk</a> 與 <a target="_blank" rel="noopener" href="https://aws.amazon.com/tw/rds/">RDS</a> 服務部署網站</p>
-<br>
-<span id="more"></span>
-
-<h5 id="Why-AWS"><a href="#Why-AWS" class="headerlink" title="Why AWS?"></a>Why AWS?</h5><p>部署在部分公司也成了工程師必備的技能之一，通常最常看到的就是 AWS ，當然還有 GCP 與 AZURE，不過 AWS 是這三大最早出現的，所以就先挑他來做練習。</p>
-<h6 id="AWS-看起來包山包海的，所以他到底是什麼？-官網寫著："><a href="#AWS-看起來包山包海的，所以他到底是什麼？-官網寫著：" class="headerlink" title="AWS 看起來包山包海的，所以他到底是什麼？ 官網寫著："></a>AWS 看起來包山包海的，所以他到底是什麼？ 官網寫著：</h6><blockquote>
-<p>Amazon Web Services 是全球最全面和廣泛採納的雲端平台，透過全球資料中心提供超過 200 項功能完整的服務。數百萬個客戶 — 包括成長最快的新創公司、最大型企業以及領先的政府機構 — 都使用 AWS 來降低成本、變得更靈活，且更迅速地創新。</p>
+            <p>疫情的衝擊，除了被取消過四次航班外 <span class="github-emoji"><span>😿</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f63f.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>，其餘安好！<br><span id="more"></span>感恩身旁的人如今還平安健康，這段時間多了許多跟自己的對話，再加上透過旁人的鼓勵，我終於踏出半個舒適圈，認真的考慮工程師的職位。</p>
+<blockquote>
+<p>所有你想做的事，現在就是你此生能最快開始的時間了</p>
 </blockquote>
-<p>我想…就是提供各式各樣不同的雲端相關服務囉！</p>
-<h5 id="開始吧"><a href="#開始吧" class="headerlink" title="開始吧"></a><strong>開始吧</strong></h5><p>基本上只要在 Google 輸入「Node.js 部署 AWS」應該點到這裡 =&gt; <a target="_blank" rel="noopener" href="https://aws.amazon.com/tw/getting-started/hands-on/deploy-nodejs-web-app/">https://aws.amazon.com/tw/getting-started/hands-on/deploy-nodejs-web-app/</a></p>
-<p>官網甚至提供中文的教學步驟 <span class="github-emoji"><span>📖</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d6.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span>，我是依照使用「AWS Elastic Beanstalk 和 Amazon DynamoDB 啟動 Node.js Web 應用程式環境的教學」開始部署之旅，不過因為這次練習部署的站我使用的是 MySQL，所以我最後使用的是 Amazon RDS 的資料庫做連線，如果是使用 NoSQL 的話就使用 DynamoDB 即可。</p>
-<p>Elastic Beanstalk 是 AWS 幫助開發者把 EC2 跟其他部署的建設基礎都處理好的類 PaaS 服務（理解有誤的話還有望前輩們指教），所以只要選好 server 方案、平台，上傳程式碼，就可以輕鬆部署完成。</p>
-<p>因為部署並不複雜，且官網都有詳細說明，所以這篇就沒有一一寫出步驟，主要挑出有遇到的幾個小問題來分享：</p>
-<br>
-
-<ul>
-<li><em><strong>.env 檔案 — 環境設定</strong></em></li>
-</ul>
-<p>這次練習的專案我有使用 Imgur 的 API 來做上傳圖片，如果專案有需要設定環境參數的話記得到「組態」的「環境屬性」做設定</p>
-<p><img src="https://miro.medium.com/max/700/1*zht_hrS0BTuhRSkPz-umUA.png" alt="image alt"><br><br><br><img src="https://miro.medium.com/max/700/1*WhnG6-opD3MHWYJD62eQKw.png" alt="image alt"></p>
-<br>
-
-<ul>
-<li><em><strong>有錢才能任性：建立 Database — region 也很重要</strong></em></li>
-</ul>
-<p>我在本機先使用了 MySQL 做開發，所以就選擇使用 Amazon RDS 來與應用程式串接</p>
-<p><img src="https://miro.medium.com/max/700/1*H5fU4Fwa3wxJ8Vms32kjnA.png" alt="image alt"></p>
-<p>這邊遇到的小坑是，我一開始建立專案選在 region 選了亞太地區(大阪)，結果建立 Database 的時候，怎麼選都沒看到 db.t2.micro 的免費方案（換了 MySQL 版本也是），最後請教了一下有經驗的人才發現，原來 region 不同服務跟計價也會有差異，後來改選到亞太地區(東京)才順利建立了免費試用的資料庫（目前免費專案也是只有第一年 750 hr / month 哦，之後要隨時注意一下 billing，以免被收費~)</p>
-<br>
-
-<ul>
-<li><em><strong>專案部署設定</strong></em></li>
-</ul>
-<p>Elastic Beanstalk 部署可以用上傳檔案的方式，似乎也可以使用 EB CLI 與 Docker 的方式部署（之後再找機會嘗試），這次我是先使用了壓縮專案成 ZIP 檔案上傳的方式部署，專案先將 config.json 檔案的 production 設定完成後，將專案打包上傳，部署完後滿心期待點了網址卻一直出現轉圈圈的狀況，毫無頭緒的我，第一個想法是看 LOG 檔報了什麼錯，但在 AWS 上的 Log 去哪看呢？ 就在「日誌」裡頭，「請求日誌」點下去可以選擇要全部的還是只要 100 行，下載下來是個 ZIP 檔，解壓縮後找到 web.stdout.log 這個檔案，就可以看到 log 了 :+1: </p>
-<p><img src="https://miro.medium.com/max/700/1*6eU6jvDlox75AR703Yn4jw.png" alt="image alt"></p>
-<p>第一次出錯我看到 log 顯示的像是連線錯誤，查看了一下發現在 AWS 上應該是執行 <code>package.json</code> 中 <code>start</code> 腳本，於是我就將設定改成<br><code>"start": "NODE_ENV=production node app.js" </code>重新部署後，網站就成功跑起來了，不過對於這樣的連線問題還是有些疑惑存在，希望未來可以再慢慢補齊觀念。</p>
-<p>這次部署到 AWS 的網站算是個人的 Portfolio [ 全端開發使用 Node.js + Express.js + Handlebars (版型取用網路上免費的 Bootstrap template 來做套版修改) ]，因為免費方案有限制因此純分享就不附上 demo 網址啦～～</p>
+<h5 id="師父領進門"><a href="#師父領進門" class="headerlink" title="師父領進門"></a>師父領進門</h5><p>體會過 w3school、hahow 的線上課程，也曾巴著工程師朋友遠端教學，一直以來都是蜻蜓點水的碰觸程式語言，直到加入了 Bootcamp，才真正開始從基礎概念一路有系統性地前進。我一直在想這跟以前學吉他好像，我以為會五月天的擁抱就可以說我會彈吉他了，直到我真正上了課，爬了好長一段時間的音階才前進到和弦，這才慢慢真正深入的掌握如何彈吉他這件事。</p>
+<p>前期在的 exercise 都還過得去的狀況，算是確立了喜歡 coding 這件事，我自己判定最簡單的方法就是看自己每天起床，會不會對於進度或作業感到厭煩想逃避，心想沒有這樣的念頭至少是不討厭吧～</p>
+<p>後期開始接觸 Express 打造 Web app 及對資料庫 (MongoDB, MySQL) 的操作，慢慢發現自己對於畫面上呈現出正確的邏輯與資料富有成就感，在做 CRUD 時成功改動資料庫的瞬間，也很是滿意，因此沒想太多就選了專攻後端，對於選前/後端我覺得就像大學選科系一樣，一開始會怕後悔，但後來想想，以前我讀了商科，現在不也是來學寫程式了嗎？而我自商科畢業，做的工作所學到的經驗，那些也都不會是浪費，而是成為了養分。</p>
+<blockquote>
+<p>唯一能限制你的，只有你自己</p>
+</blockquote>
+<h5 id="修行在個人"><a href="#修行在個人" class="headerlink" title="修行在個人"></a>修行在個人</h5><p>從語法拼湊到運算邏輯，從大量手把手實作到靠自己上網找解法，從迴圈卡一天、非同步語法腦袋打結三天，到最後必須兩週完成協作開發專案，當然也有想放棄的時候，特別有段時間在醫院邊 coding 邊陪病的日子（辛酸畫面流出），最感謝的還是自己堅持了下來！</p>
+<p>結束了自學課程，沒有了死線，而職涯漫漫、學海無涯，真正的個人修行才正要開始！</p>
+<blockquote>
+<p>學如逆水行舟，不進則退</p>
+</blockquote>
+<p><img src="https://lh3.googleusercontent.com/eWbOMpzgp9oiH_9PaaufWw4q_2EFTPmUhp63uLqWrE_QsYHM5p5Ezl36-YIKLkNCPONCLAzLcu9r3R6POrtrigf_ZXa-14JQTBJvSteLcFSgsYc1zrYWmmLBaxsgSub13YG9PBlC7duThSsHopONi-kUGyq9AhR5WxtRZW119O-u7utAsbESdDJ_AppcahBGDj0_vnEZiyV5z6LoMXyOe9oanV4PuY_4nSiKDqyUcr0m_cAMrHTe6Y6rb7exKl4F1W06ce_Z2Ccu2Spxs0r1-WfwTeg9QcpUudQKiPzp8A9akULJV-x2yZqcH02I_2eDF0F-qxi9S5-3fa6lyRgF3s-7EpMOdhOzC961xZUmuECRojoMVT0KECjWfOG156mRXD9rvug-PCzaEZEb2k9krO6RvoLmySrHE7YbVWKixiqXsBeoJtzna8pCc96IWJ9DOpvWo31WfWpRaqssxa2kDLpJQAvxkq98isRm2lGuFcXgm6sX0uDOlzjMgVkZhC_hCdb-qUzmYvCp31_RnwM2eX5BNOedRo4t3iOxLyr-fsJNmS87zCpA059KWVxRG-FWbN3O1Ernw_zNZW1kyXVkbndJY5D73rolrhqLI4WI3eWP7wZtUvgOeSYVA3gVkuS0MbPOYh9AqejSAXRcWLqiPANe_9qMgyDKHIyOas71zgE3bfNZ3iJW1OxPP8LIR3jQDH2xhhAMDLQodU1eimfDLhuuSeKRlg3IvhYmG0HURyQSzeJHkd1Q4z9LZhDaugNgHkw5_IYbLlDgT_qpnS0fCkbZ3CWXtgrcKjbu=w996-h739-no?authuser=1" alt="image alt"></p>
 
             
 
@@ -325,24 +301,20 @@
     </div>
     <div id="post-footer" class="post-footer main-content-wrap">
         
-            <div class="post-footer-tags">
-                <span class="text-color-light text-small">TAGGED IN</span><br/>
-                
-    <a class="tag tag--primary tag--small t-none-link" href="/tags/AWS/" rel="tag">AWS</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/Elastic-Beanstalk/" rel="tag">Elastic Beanstalk</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/deploy/" rel="tag">deploy</a>
-
-            </div>
-        
         
             <div class="post-actions-wrap">
     <nav>
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a
-                        class="post-action-btn btn btn--disabled"
-                        aria-hidden="true"
-                    >
-                        
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2021/10/28/project-aws-deploy-first-time/"
+                    data-tooltip="Project - AWS 服務初體驗"
+                    aria-label="PREVIOUS: Project - AWS 服務初體驗"
+                >
+                    
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -352,9 +324,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2021/10/28/diary-2021-review/"
-                    data-tooltip="雜記 - 回顧"
-                    aria-label="NEXT: 雜記 - 回顧"
+                    href="/2021/08/08/project-expense-tracker/"
+                    data-tooltip="Project - Expense Tracker"
+                    aria-label="NEXT: Project - Expense Tracker"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -379,7 +351,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2021/10/28/project-aws-deploy-first-time/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2021/10/28/diary-2021-review/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -392,7 +364,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2021/10/28/project-aws-deploy-first-time/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2021/10/28/diary-2021-review/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -437,11 +409,14 @@
         <ul class="post-actions post-action-nav">
             <li class="post-action">
                 
-                    <a
-                        class="post-action-btn btn btn--disabled"
-                        aria-hidden="true"
-                    >
-                        
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2021/10/28/project-aws-deploy-first-time/"
+                    data-tooltip="Project - AWS 服務初體驗"
+                    aria-label="PREVIOUS: Project - AWS 服務初體驗"
+                >
+                    
                         <i class="fa fa-angle-left" aria-hidden="true"></i>
                         <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
                     </a>
@@ -451,9 +426,9 @@
                     
                 <a
                     class="post-action-btn btn btn--default tooltip--top"
-                    href="/2021/10/28/diary-2021-review/"
-                    data-tooltip="雜記 - 回顧"
-                    aria-label="NEXT: 雜記 - 回顧"
+                    href="/2021/08/08/project-expense-tracker/"
+                    data-tooltip="Project - Expense Tracker"
+                    aria-label="NEXT: Project - Expense Tracker"
                 >
                     
                         <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
@@ -478,7 +453,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2021/10/28/project-aws-deploy-first-time/"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2021/10/28/diary-2021-review/"
                     title="Share on Facebook"
                     aria-label="Share on Facebook"
                 >
@@ -491,7 +466,7 @@
             <li class="post-action hide-xs">
                 <a
                     class="post-action-btn btn btn--default"
-                    target="new" href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2021/10/28/project-aws-deploy-first-time/"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2021/10/28/diary-2021-review/"
                     title="Share on Twitter"
                     aria-label="Share on Twitter"
                 >
@@ -525,7 +500,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2021/10/28/project-aws-deploy-first-time/"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2021/10/28/diary-2021-review/"
                         aria-label="Share on Facebook"
                     >
                         <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
@@ -538,7 +513,7 @@
                     <a
                         class="share-option-btn"
                         target="new"
-                        href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2021/10/28/project-aws-deploy-first-time/"
+                        href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2021/10/28/diary-2021-review/"
                         aria-label="Share on Twitter"
                     >
                         <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
