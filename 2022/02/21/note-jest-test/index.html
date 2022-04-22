@@ -1,0 +1,644 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Bobo&#39;s Blog">
+    <title>Note - 初探 JEST - Bobo&#39;s Blog</title>
+    <meta name="author" content="Bobo Lin">
+    
+        <meta name="keywords" content="hexo,JavaScript,Node.js,">
+    
+    
+        <link rel="icon" href="https://bobolin0624.github.io/assets/images/favicon.png">
+    
+    
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bobo Lin","sameAs":["https://github.com/BoboLin0624","https://www.linkedin.com/in/chia-an-lin-ba2a03218/"],"image":"avatar-tea.jpg"},"articleBody":"給 JavaScript 開發者的測試框架，跟 React 整合性最佳！為什麼呢？大概因為 JEST 也是 Facebook 團隊開發的 (?)\n\n\n這次主要會接觸到 JEST，是要在公司的專案裡頭試著導入，於是開始邊看邊實作，本篇就來簡單紀錄一點關於測試與 JEST 的基礎知識。\nUnit Test這次主要是做單元測試，所謂單元測試，就是以專案中最小單位(function / method) 去驗證每個 function 可以輸出符合我們期望的回傳值。下面舉個最簡單的例子：\n\n有一 add function，會回傳 a + b，當測試時賦值 a = 1, b = 2 時， output 預期應該回傳 3，但卻得到回傳值為 5 時，就可以回頭去確認邏輯是不是寫成 a * 3 + b 之類的，進行 debug\n\n\n\n\n單元測試有什麼好處？其實自己身邊遇過真的有在寫測試的工程師真的不多，畢竟每次收到需求時都已經是壓到不能再壓的時程（？，但其實這次嘗試寫測試時，發現還是有好處的，像是驗證基本錯誤、避免改 A 壞 B、降低人工測試時間成本等等，有句話說 “ Code for six minutes, debug for six hours! ” 我想應該很多開發者都有過類似的經驗吧 :face_with_monocle: \n\n\nJEST雖然這次不是 React 專案而是 Node.js 後端使用 JEST 做測試，但在導入時我仍然覺得使用 JEST 來寫測試很快速也方便，先前在其他專案協作時使用 TDD 開發，使用的是 mocha 測試框架，mocha 本身斷言庫及測試替身需要再額外安裝 chai 及 sinon 套件，而 JEST 本身就包含了這些 library，因此整個導入上有速度快且容易的優勢，從安裝套件到開始寫測試大概花不到兩分鐘，可以參考以下步驟 ( JEST 的官方文件 📖 算是淺顯易懂的，讓我這種不愛看官方文件的人也有耐心地翻閱了不少內容）\n12345678910(1) install packagenpm install jest --save-dev(2) 在 package.json 的 scripts 中多加一行 test，如此跑測試時就可以使用 npm run test{  \"scripts\": {    \"test\": \"jest\"  }}(3) 新增 __tests__ 資料夾(4) 新增 xxx.test.js 檔\n\n基本上做完上面四個步驟後，接著就可以開始寫測試囉！\n測試怎麼寫？以一個前些時間專案的 unit 為例，情境是每隔一段時間需要去判斷目前的工班是否已經換班，需要驗證的就是「是」或「否」這麼簡單\n測試案例的撰寫，撰寫每一道測試需要先定義\n\n測試的目標為何？\n\n前一工班與現在工班是否換班(相同)，並回傳相同與不同的 result\n123test('compare pre and now work is changed', () =&gt; {  測試程式})\n\n\n導入要測試的函式是什麼？\n\n1compareWork(pre, now)\n\n\n測試的期望是什麼？\n\n希望測試 [未換班] 的結果，期望回傳的 result 的是 false\n12expect(compareWork(pre, now)).toEqual({ result: false })\n\nJEST 中有很多 Matchers 可以使用如 toBe, toEqual, toBeTruthy …等等，可以依據測試案例去查找可用的 Matchers\n這個 unit 的驗證還會有 [已換班] 的結果，此時就可以再繼續寫下一個案例來測試 [已換班] 啦。\n超方便的 Mock (替身)測試時需要關注點分離，我們常常都會在函式裡面又引入另一個函式，但是我們要專心在測試要被測試的 Function (SUT — System Under Test 測試目標)，這時候就需要排除不確定性（例如錯誤可能來自另一個函示），此時就可以使用 Mock 來當作替身函式 (Test Double)，模擬其他相依函式 (DOC -Depended-on Component 依賴組件) 的回傳值（類似做假資料的意思）。\n可以選擇要把單一 function mock 起來，也可以 mock 我們要串外部 api 的 module 像是 axios 套件。\n123456// mock functionconst mockFunction = jest.fn()// mock modulejest.mock(‘../models/xxx’)jest.mock(‘axios’)\n\n接著就指定回傳值\n12345// 指定永久回傳值（也可以指定回傳某個值一次）mockFunction.mockReturnValue()axios.get.mockReturnValue(response)axios.mockReturnValue(response)\n\n\n\n最後，簡單分享在開發時解決的一個問題\n\n環境變數問題情境：在測試某個 function 並且程式碼中有使用 axios 呼叫 api 時，由於我將 url 為透過 launch.json 存取執行 process.env 環境再取得 config.json 設定檔中的網址，雖然測試案例已經 mock axios module，不過跑測試時因為沒有讀取到環境變數，導致程式碼跑出 undefined 的值進行報錯，測試就無法順利往下跑。\n這部分因為在程式碼中又牽扯到作用域的關係，於是花了一些時間在嘗試，最後在官方文件中發現了JEST 提供 setupFiles 設定，檔案中可以直接設定程式碼中需要的 config 與環境變數，如此一來在每次 npm run test 的時候就會使用這支檔案的變數內容囉。\n\n\n\n\n設定好後就在 .jest/setEnvVars.js 中加入 process.env 的相關變數就可以啦！\n在這個問題情境下，解法或許還有一種就是使用 dotenv 的套件來存取，不過還沒有時間實作測試是否可行，還盼有高手及前輩分享經驗~~\n最後的最後記錄一下自己首次從研究測試框架到導入的微心得\n\n藉以利用寫單元測試的過程，審視程式碼的維護性與完整性\n寫單元測試更能理解寫出低藕合的 code 的好處，在高藕合程式碼的狀況下就必須使用大量 mock\n必須儘量以不更動程式碼及邏輯為前提的狀態下寫測試，除非特例狀況或重構\n測試程式也要有好的維護性與可讀性，須考量維護成本\n專案中團隊的討論依然重要，包含寫測試的時間點、測試的粒度、規範等等（工程師們不要再逃避溝通啦～～～by ex-PM 的吶喊 😂）\n\n(初學程式筆記，若文中有誤還請不吝指教 ）🤓\n","dateCreated":"2022-02-21T10:18:33+08:00","dateModified":"2022-04-22T09:54:44+08:00","datePublished":"2022-02-21T10:18:33+08:00","description":"給 JavaScript 開發者的測試框架，跟 React 整合性最佳！為什麼呢？大概因為 JEST 也是 Facebook 團隊開發的 (?)","headline":"Note - 初探 JEST","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://bobolin0624.github.io/2022/02/21/note-jest-test/"},"publisher":{"@type":"Organization","name":"Bobo Lin","sameAs":["https://github.com/BoboLin0624","https://www.linkedin.com/in/chia-an-lin-ba2a03218/"],"image":"avatar-tea.jpg","logo":{"@type":"ImageObject","url":"avatar-tea.jpg"}},"url":"https://bobolin0624.github.io/2022/02/21/note-jest-test/","keywords":"JavaScript, JEST"}</script>
+    <meta name="description" content="給 JavaScript 開發者的測試框架，跟 React 整合性最佳！為什麼呢？大概因為 JEST 也是 Facebook 團隊開發的 (?)">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="Note - 初探 JEST">
+<meta property="og:url" content="https://bobolin0624.github.io/2022/02/21/note-jest-test/index.html">
+<meta property="og:site_name" content="Bobo&#39;s Blog">
+<meta property="og:description" content="給 JavaScript 開發者的測試框架，跟 React 整合性最佳！為什麼呢？大概因為 JEST 也是 Facebook 團隊開發的 (?)">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://miro.medium.com/max/1400/1*Dodv1f9UelXFsnZTXR81XA.png">
+<meta property="og:image" content="https://github.githubassets.com/images/icons/emoji/unicode/1f4d6.png?v8">
+<meta property="og:image" content="https://miro.medium.com/max/1400/0*vrpcNJ4HS1vP_adm">
+<meta property="og:image" content="https://miro.medium.com/max/1400/0*bdlPciJPxuFSgrDl">
+<meta property="og:image" content="https://github.githubassets.com/images/icons/emoji/unicode/1f913.png?v8">
+<meta property="article:published_time" content="2022-02-21T02:18:33.000Z">
+<meta property="article:modified_time" content="2022-04-22T01:54:44.287Z">
+<meta property="article:author" content="Bobo Lin">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="JEST">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://miro.medium.com/max/1400/1*Dodv1f9UelXFsnZTXR81XA.png">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://bobolin0624.github.io/assets/images/avatar-tea.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-gkxabcgjdjamjks2hf9trhmc8enb3bnyupdtpbsmjovnhqo9yficmtd0fyiw.min.css">
+
+    <!--STYLES END-->
+    
+
+    
+
+    
+        
+    
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+            Bobo&#39;s Blog
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/avatar-tea.jpg" alt="Author&#39;s picture"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar-tea.jpg" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">Bobo Lin</h4>
+                
+                    <h5 class="sidebar-profile-bio"></h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
+                            
+                            rel="noopener"
+                            title="Home"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
+                            
+                            rel="noopener"
+                            title="Categories"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
+                            
+                            rel="noopener"
+                            title="Tags"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
+                            
+                            rel="noopener"
+                            title="Archives"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="About"
+                        >
+                        <i class="sidebar-button-icon fas fa-anchor" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/BoboLin0624"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://www.linkedin.com/in/chia-an-lin-ba2a03218/"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="LinkedIn"
+                        >
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                <body>
+    <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+    <script>addBackToTop({
+        diameter: 40,
+        backgroundColor: '#ddd',
+        textColor: 'red'
+      })
+    </script>
+</body>
+
+
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            Note - 初探 JEST
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2022-02-21T10:18:33+08:00">
+	
+		    Feb 21, 2022
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Note/">Note</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>給 JavaScript 開發者的測試框架，跟 React 整合性最佳！為什麼呢？大概因為 JEST 也是 Facebook 團隊開發的 (?)<br><br></p>
+<span id="more"></span>
+
+<p>這次主要會接觸到 JEST，是要在公司的專案裡頭試著導入，於是開始邊看邊實作，本篇就來簡單紀錄一點關於測試與 JEST 的基礎知識。</p>
+<h4 id="Unit-Test"><a href="#Unit-Test" class="headerlink" title="Unit Test"></a>Unit Test</h4><p>這次主要是做單元測試，所謂單元測試，就是以專案中最小單位(function / method) 去驗證每個 function 可以輸出符合我們期望的回傳值。下面舉個最簡單的例子：</p>
+<blockquote>
+<p>有一 add function，會回傳 a + b，當測試時賦值 a = 1, b = 2 時， output 預期應該回傳 3，但卻得到回傳值為 5 時，就可以回頭去確認邏輯是不是寫成 a * 3 + b 之類的，進行 debug</p>
+</blockquote>
+<p><img src="https://miro.medium.com/max/1400/1*Dodv1f9UelXFsnZTXR81XA.png" alt="image alt"></p>
+<br>
+
+<h4 id="單元測試有什麼好處？"><a href="#單元測試有什麼好處？" class="headerlink" title="單元測試有什麼好處？"></a>單元測試有什麼好處？</h4><p>其實自己身邊遇過真的有在寫測試的工程師真的不多，畢竟每次收到需求時都已經是壓到不能再壓的時程（？，但其實這次嘗試寫測試時，發現還是有好處的，像是驗證基本錯誤、避免改 A 壞 B、降低人工測試時間成本等等，有句話說 “ Code for six minutes, debug for six hours! ” 我想應該很多開發者都有過類似的經驗吧 :face_with_monocle: </p>
+<br>
+
+<h4 id="JEST"><a href="#JEST" class="headerlink" title="JEST"></a>JEST</h4><p>雖然這次不是 React 專案而是 Node.js 後端使用 JEST 做測試，但在導入時我仍然覺得使用 JEST 來寫測試很快速也方便，先前在其他專案協作時使用 TDD 開發，使用的是 mocha 測試框架，mocha 本身斷言庫及測試替身需要再額外安裝 chai 及 sinon 套件，而 JEST 本身就包含了這些 library，因此整個導入上有速度快且容易的優勢，從安裝套件到開始寫測試大概花不到兩分鐘，可以參考以下步驟 ( JEST 的<a target="_blank" rel="noopener" href="https://jestjs.io/docs/getting-started">官方文件 <span class="github-emoji"><span>📖</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f4d6.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span> </a>算是淺顯易懂的，讓我這種不愛看官方文件的人也有耐心地翻閱了不少內容）</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(1) install package</span><br><span class="line">npm install jest --save-dev</span><br><span class="line">(2) 在 package.json 的 scripts 中多加一行 test，如此跑測試時就可以使用 npm run test</span><br><span class="line">{</span><br><span class="line">  "scripts": {</span><br><span class="line">    "test": "jest"</span><br><span class="line">  }</span><br><span class="line">}</span><br><span class="line">(3) 新增 __tests__ 資料夾</span><br><span class="line">(4) 新增 xxx.test.js 檔</span><br></pre></td></tr></tbody></table></figure>
+
+<p>基本上做完上面四個步驟後，接著就可以開始寫測試囉！</p>
+<h5 id="測試怎麼寫？"><a href="#測試怎麼寫？" class="headerlink" title="測試怎麼寫？"></a>測試怎麼寫？</h5><p>以一個前些時間專案的 unit 為例，情境是每隔一段時間需要去判斷目前的工班是否已經換班，需要驗證的就是「是」或「否」這麼簡單</p>
+<p>測試案例的撰寫，撰寫每一道測試需要先定義</p>
+<ul>
+<li>測試的目標為何？</li>
+</ul>
+<p>前一工班與現在工班是否換班(相同)，並回傳相同與不同的 result</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">test('compare pre and now work is changed', () =&gt; {</span><br><span class="line">  測試程式</span><br><span class="line">})</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li>導入要測試的函式是什麼？</li>
+</ul>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compareWork(pre, now)</span><br></pre></td></tr></tbody></table></figure>
+
+<ul>
+<li>測試的期望是什麼？</li>
+</ul>
+<p>希望測試 [未換班] 的結果，期望回傳的 result 的是 false</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">expect(compareWork(pre, now)).toEqual({ result: false })</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<p>JEST 中有很多 Matchers 可以使用如 toBe, toEqual, toBeTruthy …等等，可以依據測試案例去查找可用的 Matchers</p>
+<p>這個 unit 的驗證還會有 [已換班] 的結果，此時就可以再繼續寫下一個案例來測試 [已換班] 啦。</p>
+<h5 id="超方便的-Mock-替身"><a href="#超方便的-Mock-替身" class="headerlink" title="超方便的 Mock (替身)"></a>超方便的 Mock (替身)</h5><p>測試時需要關注點分離，我們常常都會在函式裡面又引入另一個函式，但是我們要專心在測試要被測試的 Function (SUT — System Under Test 測試目標)，這時候就需要排除不確定性（例如錯誤可能來自另一個函示），此時就可以使用 Mock 來當作替身函式 (Test Double)，模擬其他相依函式 (DOC -Depended-on Component 依賴組件) 的回傳值（類似做假資料的意思）。</p>
+<p>可以選擇要把單一 function mock 起來，也可以 mock 我們要串外部 api 的 module 像是 axios 套件。</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">// mock function</span><br><span class="line">const mockFunction = jest.fn()</span><br><span class="line"></span><br><span class="line">// mock module</span><br><span class="line">jest.mock(‘../models/xxx’)</span><br><span class="line">jest.mock(‘axios’)</span><br></pre></td></tr></tbody></table></figure>
+
+<p>接著就指定回傳值</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 指定永久回傳值（也可以指定回傳某個值一次）</span><br><span class="line"></span><br><span class="line">mockFunction.mockReturnValue()</span><br><span class="line">axios.get.mockReturnValue(response)</span><br><span class="line">axios.mockReturnValue(response)</span><br></pre></td></tr></tbody></table></figure>
+
+
+<blockquote>
+<p>最後，簡單分享在開發時解決的一個問題</p>
+</blockquote>
+<h6 id="環境變數"><a href="#環境變數" class="headerlink" title="環境變數"></a>環境變數</h6><p>問題情境：在測試某個 function 並且程式碼中有使用 axios 呼叫 api 時，由於我將 url 為透過 launch.json 存取執行 process.env 環境再取得 config.json 設定檔中的網址，雖然測試案例已經 mock axios module，不過跑測試時因為沒有讀取到環境變數，導致程式碼跑出 undefined 的值進行報錯，測試就無法順利往下跑。</p>
+<p>這部分因為在程式碼中又牽扯到作用域的關係，於是花了一些時間在嘗試，最後在官方文件中發現了JEST 提供 setupFiles 設定，檔案中可以直接設定程式碼中需要的 config 與環境變數，如此一來在每次 npm run test 的時候就會使用這支檔案的變數內容囉。</p>
+<p><img src="https://miro.medium.com/max/1400/0*vrpcNJ4HS1vP_adm" alt="image alt"></p>
+<br>
+
+<p><img src="https://miro.medium.com/max/1400/0*bdlPciJPxuFSgrDl" alt="image alt"></p>
+<p>設定好後就在 .jest/setEnvVars.js 中加入 process.env 的相關變數就可以啦！</p>
+<p>在這個問題情境下，解法或許還有一種就是使用 dotenv 的套件來存取，不過還沒有時間實作測試是否可行，還盼有高手及前輩分享經驗~~</p>
+<h5 id="最後的最後"><a href="#最後的最後" class="headerlink" title="最後的最後"></a>最後的最後</h5><p>記錄一下自己首次從研究測試框架到導入的微心得</p>
+<ul>
+<li>藉以利用寫單元測試的過程，審視程式碼的維護性與完整性</li>
+<li>寫單元測試更能理解寫出低藕合的 code 的好處，在高藕合程式碼的狀況下就必須使用大量 mock</li>
+<li>必須儘量以不更動程式碼及邏輯為前提的狀態下寫測試，除非特例狀況或重構</li>
+<li>測試程式也要有好的維護性與可讀性，須考量維護成本</li>
+<li>專案中團隊的討論依然重要，包含寫測試的時間點、測試的粒度、規範等等（工程師們不要再逃避溝通啦～～～by ex-PM 的吶喊 😂）</li>
+</ul>
+<p><code>(初學程式筆記，若文中有誤還請不吝指教 ）</code><span class="github-emoji"><span>🤓</span><img src="https://github.githubassets.com/images/icons/emoji/unicode/1f913.png?v8" aria-hidden="true" onerror="this.parent.classList.add('github-emoji-fallback')"></span></p>
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/JEST/" rel="tag">JEST</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2021/10/28/project-aws-deploy-first-time/"
+                    data-tooltip="Project - AWS 服務初體驗"
+                    aria-label="NEXT: Project - AWS 服務初體驗"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2022/02/21/note-jest-test/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2022/02/21/note-jest-test/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2022 Bobo Lin. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2021/10/28/project-aws-deploy-first-time/"
+                    data-tooltip="Project - AWS 服務初體驗"
+                    aria-label="NEXT: Project - AWS 服務初體驗"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2022/02/21/note-jest-test/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2022/02/21/note-jest-test/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#" aria-label="Back to top">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2022/02/21/note-jest-test/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2022/02/21/note-jest-test/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar-tea.jpg" alt="Author&#39;s picture"/>
+        
+            <h4 id="about-card-name">Bobo Lin</h4>
+        
+            <div id="about-card-bio"><p>Hi! I am Bobo. Experienced in web and system project manager and now I am Back-End developer. <br /> Using Node.js and Express.js framework with industry building web applications.</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Taipei, Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover-sea-1.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-dzsjyemehxeuofs4ljfjpnna7zbagpa4smfrsqws1xo2f1dmq4uk3br7lc0n.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+    
+
+
+
+
+    </body>
+</html>
