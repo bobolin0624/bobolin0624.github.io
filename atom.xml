@@ -85,6 +85,31 @@
   </entry>
   
   <entry>
+    <title>Project - Simple Twitter</title>
+    <link href="https://bobolin0624.github.io/2021/10/03/project-simple-twitter/"/>
+    <id>https://bobolin0624.github.io/2021/10/03/project-simple-twitter/</id>
+    <published>2021-10-02T16:00:00.000Z</published>
+    <updated>2022-05-13T05:47:44.768Z</updated>
+    
+    <content type="html"><![CDATA[<p>第一次以工程師的角色，開啟多人協作專案<br>一直以來在職場上都是以 PM 的角色開啟專案，終於在 coding bootcamp 中，最後以工程師的角色，加入了 Simple Twitter 協作專案。</p><span id="more"></span><h5 id="專案目標：在兩週時限內使用前後分離模式開發簡易推特社群網站"><a href="#專案目標：在兩週時限內使用前後分離模式開發簡易推特社群網站" class="headerlink" title="專案目標：在兩週時限內使用前後分離模式開發簡易推特社群網站"></a>專案目標：在兩週時限內使用前後分離模式開發簡易推特社群網站</h5><h5 id="開發語言與框架：前端使用-Vue，後端使用-Express-MySQL"><a href="#開發語言與框架：前端使用-Vue，後端使用-Express-MySQL" class="headerlink" title="開發語言與框架：前端使用 Vue，後端使用 Express + MySQL"></a>開發語言與框架：前端使用 Vue，後端使用 Express + MySQL</h5><h5 id="負責項目：後端開發（包含資料庫建置、後台功能與前台部分功能）與-API-部分文件撰寫"><a href="#負責項目：後端開發（包含資料庫建置、後台功能與前台部分功能）與-API-部分文件撰寫" class="headerlink" title="負責項目：後端開發（包含資料庫建置、後台功能與前台部分功能）與 API 部分文件撰寫"></a>負責項目：後端開發（包含資料庫建置、後台功能與前台部分功能）與 API 部分文件撰寫</h5><h3 id="專案-Kick-off-Meeting"><a href="#專案-Kick-off-Meeting" class="headerlink" title="專案 Kick-off Meeting"></a>專案 Kick-off Meeting</h3><p>夥伴們的線上相見歡，簡單互相認識後，很快速就訂定了幾項事務與目標：</p><ul><li><p>Git flow 協作流程：主要使用 master-develop-feature 三層架構，但由於先前都沒有協作經驗，所以前後端組員還是分頭開 repo 練習，雖然最後似乎還是沒有按照較正規的作法，但透過這次經驗對於 GIT 的流程又有更進一步的認識。</p></li><li><p>定時檢視並交流專案狀態：最後實作上很慶幸組員們幾乎是處於秒回狀態，因此在對焦與溝通上都很順暢。</p></li><li><p>協作工具：Slack (即時訊息分享與溝通）, Trello（開發進度與會議記錄）, Google Sheet（元件拆分、 API 分工、驗測劇本）</p></li><li><p>視訊會議：<a href="https://meet.jit.si/">Jitsi Meet</a>, Google Meet</p></li></ul><h4 id="與後端組員的協作"><a href="#與後端組員的協作" class="headerlink" title="與後端組員的協作"></a>與後端組員的協作</h4><p>之前習慣的寫法都是用 promise，這次特別與夥伴提出想要以 async /await 的方式練習開發，雖然使用不同的寫法也沒有衝突，不過最後還是商討統一寫法看起來程式碼會較一致；而資料庫由我建置後，夥伴定義種子資料，接著開發功能的分工，採用 controller 的分法（考量：檔案衝突點少，功能連貫，能避免更動同一支檔案），我先負責 admin 後台與 user 相關的 api，另一位後端則從 tweet, reply 下手，過程中都蠻順利，遇到問題都能即時討論做法並達成共識，在卡關時也能互相 cover 找到盲點。</p><p><em>好物推薦：<a href="https://simpletwitterapi1.docs.apiary.io/#reference">後端 API 文件</a>這次使用 apiary 撰寫，使用 markdown 語法很是方便，後期觀察前端串 api 時的提問後，發現提供給前端其實還需要更實際的狀態碼、回傳內容、body、Content-Type …等，越詳細就越能減少溝通成本！</em></p><h4 id="與前端組員的協作"><a href="#與前端組員的協作" class="headerlink" title="與前端組員的協作"></a>與前端組員的協作</h4><p>與前端的協作是專案中覺得最新奇與最富挑戰的地方，因為前端會先進行元件與切版的製作，而在開發 API 時只先依照設計稿及想像力來 query 並給予資料，利用 postman 測試加上跑測試檔綠燈後就先過，但在實際串接時才發現前端需要的資料或格式跟當初想像不同，因而需要做更多的討論或調整，很 respect 前端的介面與資料串接，最期待的就是夥伴們說 ok 的時候，看到畫面上有資料是一件很有成就感的事！</p><p><em>好物推薦：前期測試時考量到還需大量改動程式碼，因此前後端的串接測試時決議先使用 ngrok 工具（可以將 localhost 對應一組 http / https domain），簡單快速！</em></p><p><img src="https://miro.medium.com/max/1400/1*evTEi_tTkFuQwvJeQ3mvhQ.jpeg" alt="simple twitter ui"></p><hr><h4 id="黑客松"><a href="#黑客松" class="headerlink" title="黑客松"></a>黑客松</h4><p>在指定規格完成後，緊接著就是為期一整個週末的黑客松挑戰，其實在指定規格到期日前一晚，全組都還因為在做部分調整一起奮戰到半夜，但隔天大家還是很有毅力的上 google meets 即時邊讀 socket.io 的官方文件邊討論(瞎聊)，即使最後只完整做完挑戰一，但還是收穫很多也做得很開心！</p><p><em>專案心得</em></p><p>原先一直各種擔心這次的專案實作會做不完或是大卡關之類的，但實際投入後覺得其實協作專案除了技術力外，更多的時間講求的是團隊如何溝通、協調，順利的推動專案直到上線，因此要謝謝有緣的組員們讓我能有這次寶貴的經驗！</p><p><a href="https://github.com/shijia22/twitter-front-end-vue-2020">前端 Repo</a><br><a href="https://github.com/shijia22/twitter-api-2020">後端 Repo</a></p>]]></content>
+    
+    
+    <summary type="html">&lt;p&gt;第一次以工程師的角色，開啟多人協作專案&lt;br&gt;一直以來在職場上都是以 PM 的角色開啟專案，終於在 coding bootcamp 中，最後以工程師的角色，加入了 Simple Twitter 協作專案。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="Project" scheme="https://bobolin0624.github.io/categories/Project/"/>
+    
+    
+    <category term="Node.js" scheme="https://bobolin0624.github.io/tags/Node-js/"/>
+    
+    <category term="Express.js" scheme="https://bobolin0624.github.io/tags/Express-js/"/>
+    
+    <category term="MySQL" scheme="https://bobolin0624.github.io/tags/MySQL/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Project - Expense Tracker</title>
     <link href="https://bobolin0624.github.io/2021/08/08/project-expense-tracker/"/>
     <id>https://bobolin0624.github.io/2021/08/08/project-expense-tracker/</id>
