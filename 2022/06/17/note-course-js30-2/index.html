@@ -1,0 +1,616 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Bobo&#39;s Blog">
+    <title>JS30 系列筆記 - Day 6 ~ Day 10 - Bobo&#39;s Blog</title>
+    <meta name="author" content="Bobo Lin">
+    
+        <meta name="keywords" content="hexo,JavaScript,Node.js,">
+    
+    
+        <link rel="icon" href="https://bobolin0624.github.io/assets/images/favicon.png">
+    
+    
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bobo Lin","sameAs":["https://github.com/BoboLin0624","https://www.linkedin.com/in/chia-an-lin-ba2a03218/"],"image":"avatar-tea.jpg"},"articleBody":"發現課程裡除了 JavaScript 的部份外，也會有些 HTML 與 CSS 的小應用，現在的工作主要是以 Node.js 的後端開發為主，對於 CSS 不常接觸，希望也可以藉此課程內容來做一些語法的練習與增長\n\n\nD6 - Ajax Type Ahead目標：使用 Fetch API 取得資料做處理，接著在使用者輸入關鍵字母顯示相應的 results\nFetch API 取得的資料為 readableStream，需轉成 json 格式，再做後續的資料處理\n建立正規表示法 Regular expressions\n12// 使用建構式const regex = new RegExp(regex, \"gi\"); // g 為 global , i 為 case insensitive\n\n比對時使用 Array.filter 找到 match input.value 的結果\n這次的練習與課程略有不同，是使用 swapi 來做本次練習，可以找出星際大戰中的所有星球名\nMy Practice Demo\n\nD7 - Array Cardio Day 2目標：Array Method 練習\nArray.some() : 是否至少有一個項目符合條件，回傳 boolean 值\nArray.every() : 是否所有項目都符合條件\nArray.find(): 找出第一個符合條件的項目\nArray.findIndex()：找出符合條件的項目的 index\n\nPractice Code\n  12345678910111213141516171819202122232425262728293031323334353637383940414243444546const people = [  { name: \"Wes\", year: 1988 },  { name: \"Kait\", year: 1986 },  { name: \"Irv\", year: 1970 },  { name: \"Lux\", year: 2015 }];const comments = [  { text: \"Love this!\", id: 523423 },  { text: \"Super good\", id: 823423 },  { text: \"You are the best\", id: 2039842 },  { text: \"Ramen is my fav food ever\", id: 123523 },  { text: \"Nice Nice Nice!\", id: 542328 }];// Some and Every Checks// Array.prototype.some() // is at least one person 19 or older?const olderThan19 = people.some(person =&gt; {  const currentYear = new Date().getFullYear()  return currentYear - person.year &gt;= 19})console.log(olderThan19)// Array.prototype.every() // is everyone 19 or older?const allOlderThan19 = people.every(person =&gt; {  const currentYear = new Date().getFullYear()  return currentYear - person.year &gt;= 19})console.log(allOlderThan19)// Array.prototype.find()// Find is like filter, but instead returns just the one you are looking for// find the comment with the ID of 823423const matchComment = comments.find(comment =&gt; comment.id === 823423)console.table(matchComment)// Array.prototype.findIndex()// Find the comment with this IDconst matchIdIndex = comments.findIndex(comment =&gt; comment.id === 823423)console.log(matchIdIndex)// delete the comment with the ID of 823423comments.splice(matchIdIndex, 1)console.table(comments)\n\n\nD8 - Fun with HTML5 Canvas目標：使用 HTML5 提供的 canvas 的 tag 做一個繪圖板（？\n關於 canvas 的 MDN 文件\n未來可挑戰\n\n讓 User 自己選顏色，畫筆畫出相應的選擇\n\nMy Practice Demo\n\nD9 - Must Know Dev Tools Tricks目標：介紹 dev tools 的各種 console 型態（不是只有 console.log）\n12%s =&gt; string%c =&gt; css style\n\n\n\nMy Practice Demo (記得開啟 debug mode 並開啟 dev tools)\n\nD10 - Hold Shift to Check Multiple Checkboxes目標：使用 shift 可以在 checkbox 中一起選取多個\n使用 click 事件監聽及 event.shiftKey 來判斷，這題的寫法，我使用找出 index of array 的寫法，來判斷誰到誰要勾選，跟課程中的寫法不太一樣\n未來可挑戰\n\n現在只能部份全選，不能集體取消勾選\n\nMy Practice Demo\n","dateCreated":"2022-06-17T14:00:00+08:00","dateModified":"2022-06-17T14:15:28+08:00","datePublished":"2022-06-17T14:00:00+08:00","description":"發現課程裡除了 JavaScript 的部份外，也會有些 HTML 與 CSS 的小應用，現在的工作主要是以 Node.js 的後端開發為主，","headline":"JS30 系列筆記 - Day 6 ~ Day 10","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://bobolin0624.github.io/2022/06/17/note-course-js30-2/"},"publisher":{"@type":"Organization","name":"Bobo Lin","sameAs":["https://github.com/BoboLin0624","https://www.linkedin.com/in/chia-an-lin-ba2a03218/"],"image":"avatar-tea.jpg","logo":{"@type":"ImageObject","url":"avatar-tea.jpg"}},"url":"https://bobolin0624.github.io/2022/06/17/note-course-js30-2/","keywords":"JavaScript, Courses"}</script>
+    <meta name="description" content="發現課程裡除了 JavaScript 的部份外，也會有些 HTML 與 CSS 的小應用，現在的工作主要是以 Node.js 的後端開發為主，">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="JS30 系列筆記 - Day 6 ~ Day 10">
+<meta property="og:url" content="https://bobolin0624.github.io/2022/06/17/note-course-js30-2/index.html">
+<meta property="og:site_name" content="Bobo&#39;s Blog">
+<meta property="og:description" content="發現課程裡除了 JavaScript 的部份外，也會有些 HTML 與 CSS 的小應用，現在的工作主要是以 Node.js 的後端開發為主，">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-17T06:00:00.000Z">
+<meta property="article:modified_time" content="2022-06-17T06:15:28.357Z">
+<meta property="article:author" content="Bobo Lin">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Courses">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://bobolin0624.github.io/assets/images/avatar-tea.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-gkxabcgjdjamjks2hf9trhmc8enb3bnyupdtpbsmjovnhqo9yficmtd0fyiw.min.css">
+
+    <!--STYLES END-->
+    
+
+    
+
+    
+        
+    
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+            Bobo&#39;s Blog
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/avatar-tea.jpg" alt="Author&#39;s picture"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar-tea.jpg" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">Bobo Lin</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>Learning &#x2F; Music &#x2F; Photography</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
+                            
+                            rel="noopener"
+                            title="Home"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
+                            
+                            rel="noopener"
+                            title="Categories"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
+                            
+                            rel="noopener"
+                            title="Tags"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
+                            
+                            rel="noopener"
+                            title="Archives"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="About"
+                        >
+                        <i class="sidebar-button-icon fas fa-anchor" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/BoboLin0624"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://www.linkedin.com/in/chia-an-lin-ba2a03218/"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="LinkedIn"
+                        >
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                <body>
+    <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+    <script>addBackToTop({
+        diameter: 40,
+        backgroundColor: '#ddd',
+        textColor: 'red'
+      })
+    </script>
+</body>
+
+
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            JS30 系列筆記 - Day 6 ~ Day 10
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2022-06-17T14:00:00+08:00">
+	
+		    Jun 17, 2022
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Note/">Note</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>發現課程裡除了 JavaScript 的部份外，也會有些 HTML 與 CSS 的小應用，現在的工作主要是以 Node.js 的後端開發為主，<span id="more"></span>對於 CSS 不常接觸，希望也可以藉此課程內容來做一些語法的練習與增長<br><br></p>
+<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#D6-Ajax-Type-Ahead"><span class="toc-text">D6 - Ajax Type Ahead</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D7-Array-Cardio-Day-2"><span class="toc-text">D7 - Array Cardio Day 2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D8-Fun-with-HTML5-Canvas"><span class="toc-text">D8 - Fun with HTML5 Canvas</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D9-Must-Know-Dev-Tools-Tricks"><span class="toc-text">D9 - Must Know Dev Tools Tricks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D10-Hold-Shift-to-Check-Multiple-Checkboxes"><span class="toc-text">D10 - Hold Shift to Check Multiple Checkboxes</span></a></li></ol>
+
+<h3 id="D6-Ajax-Type-Ahead"><a href="#D6-Ajax-Type-Ahead" class="headerlink" title="D6 - Ajax Type Ahead"></a>D6 - <strong><strong>Ajax Type Ahead</strong></strong></h3><p>目標：使用 Fetch API 取得資料做處理，接著在使用者輸入關鍵字母顯示相應的 results</p>
+<p>Fetch API 取得的資料為 readableStream，需轉成 json 格式，再做後續的資料處理</p>
+<p>建立正規表示法 Regular expressions</p>
+<figure class="highlight jsx"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用建構式</span></span><br><span class="line"><span class="keyword">const</span> regex = <span class="keyword">new</span> <span class="title class_">RegExp</span>(regex, <span class="string">"gi"</span>); <span class="comment">// g 為 global , i 為 case insensitive</span></span><br></pre></td></tr></tbody></table></figure>
+
+<p>比對時使用 <code>Array.filter</code> 找到 match input.value 的結果</p>
+<p>這次的練習與課程略有不同，是使用 swapi 來做本次練習，可以找出星際大戰中的所有星球名</p>
+<p><a target="_blank" rel="noopener" href="https://codepen.io/Bobo624/pen/Jjpypmw?editors=0011">My Practice Demo</a></p>
+<hr>
+<h3 id="D7-Array-Cardio-Day-2"><a href="#D7-Array-Cardio-Day-2" class="headerlink" title="D7 - Array Cardio Day 2"></a>D7 - <strong><strong>Array Cardio Day 2</strong></strong></h3><p>目標：Array Method 練習</p>
+<p><code>Array.some()</code> : 是否至少有一個項目符合條件，回傳 boolean 值</p>
+<p><code>Array.every()</code> : 是否所有項目都符合條件</p>
+<p><code>Array.find()</code>: 找出第一個符合條件的項目</p>
+<p><code>Array.findIndex()</code>：找出符合條件的項目的 index</p>
+<ul>
+<li><p>Practice Code</p>
+  <figure class="highlight jsx"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> people = [</span><br><span class="line">  { <span class="attr">name</span>: <span class="string">"Wes"</span>, <span class="attr">year</span>: <span class="number">1988</span> },</span><br><span class="line">  { <span class="attr">name</span>: <span class="string">"Kait"</span>, <span class="attr">year</span>: <span class="number">1986</span> },</span><br><span class="line">  { <span class="attr">name</span>: <span class="string">"Irv"</span>, <span class="attr">year</span>: <span class="number">1970</span> },</span><br><span class="line">  { <span class="attr">name</span>: <span class="string">"Lux"</span>, <span class="attr">year</span>: <span class="number">2015</span> }</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> comments = [</span><br><span class="line">  { <span class="attr">text</span>: <span class="string">"Love this!"</span>, <span class="attr">id</span>: <span class="number">523423</span> },</span><br><span class="line">  { <span class="attr">text</span>: <span class="string">"Super good"</span>, <span class="attr">id</span>: <span class="number">823423</span> },</span><br><span class="line">  { <span class="attr">text</span>: <span class="string">"You are the best"</span>, <span class="attr">id</span>: <span class="number">2039842</span> },</span><br><span class="line">  { <span class="attr">text</span>: <span class="string">"Ramen is my fav food ever"</span>, <span class="attr">id</span>: <span class="number">123523</span> },</span><br><span class="line">  { <span class="attr">text</span>: <span class="string">"Nice Nice Nice!"</span>, <span class="attr">id</span>: <span class="number">542328</span> }</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="comment">// Some and Every Checks</span></span><br><span class="line"><span class="comment">// Array.prototype.some() // is at least one person 19 or older?</span></span><br><span class="line"><span class="keyword">const</span> olderThan19 = people.<span class="title function_">some</span>(<span class="function"><span class="params">person</span> =&gt;</span> {</span><br><span class="line">  <span class="keyword">const</span> currentYear = <span class="keyword">new</span> <span class="title class_">Date</span>().<span class="title function_">getFullYear</span>()</span><br><span class="line">  <span class="keyword">return</span> currentYear - person.<span class="property">year</span> &gt;= <span class="number">19</span></span><br><span class="line">})</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(olderThan19)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Array.prototype.every() // is everyone 19 or older?</span></span><br><span class="line"><span class="keyword">const</span> allOlderThan19 = people.<span class="title function_">every</span>(<span class="function"><span class="params">person</span> =&gt;</span> {</span><br><span class="line">  <span class="keyword">const</span> currentYear = <span class="keyword">new</span> <span class="title class_">Date</span>().<span class="title function_">getFullYear</span>()</span><br><span class="line">  <span class="keyword">return</span> currentYear - person.<span class="property">year</span> &gt;= <span class="number">19</span></span><br><span class="line">})</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(allOlderThan19)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Array.prototype.find()</span></span><br><span class="line"><span class="comment">// Find is like filter, but instead returns just the one you are looking for</span></span><br><span class="line"><span class="comment">// find the comment with the ID of 823423</span></span><br><span class="line"><span class="keyword">const</span> matchComment = comments.<span class="title function_">find</span>(<span class="function"><span class="params">comment</span> =&gt;</span> comment.<span class="property">id</span> === <span class="number">823423</span>)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">table</span>(matchComment)</span><br><span class="line"></span><br><span class="line"><span class="comment">// Array.prototype.findIndex()</span></span><br><span class="line"><span class="comment">// Find the comment with this ID</span></span><br><span class="line"><span class="keyword">const</span> matchIdIndex = comments.<span class="title function_">findIndex</span>(<span class="function"><span class="params">comment</span> =&gt;</span> comment.<span class="property">id</span> === <span class="number">823423</span>)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(matchIdIndex)</span><br><span class="line"><span class="comment">// delete the comment with the ID of 823423</span></span><br><span class="line">comments.<span class="title function_">splice</span>(matchIdIndex, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">table</span>(comments)</span><br></pre></td></tr></tbody></table></figure></li>
+</ul>
+<hr>
+<h3 id="D8-Fun-with-HTML5-Canvas"><a href="#D8-Fun-with-HTML5-Canvas" class="headerlink" title="D8 - Fun with HTML5 Canvas"></a>D8 - <strong><strong>Fun with HTML5 Canvas</strong></strong></h3><p>目標：使用 HTML5 提供的 canvas 的 tag 做一個繪圖板（？</p>
+<p>關於 canvas 的 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D">MDN 文件</a></p>
+<p>未來可挑戰</p>
+<ul>
+<li>讓 User 自己選顏色，畫筆畫出相應的選擇</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://codepen.io/Bobo624/pen/WNMZpmq?editors=0011">My Practice Demo</a></p>
+<hr>
+<h3 id="D9-Must-Know-Dev-Tools-Tricks"><a href="#D9-Must-Know-Dev-Tools-Tricks" class="headerlink" title="D9 - Must Know Dev Tools Tricks"></a>D9 - <strong><strong>Must Know Dev Tools Tricks</strong></strong></h3><p>目標：介紹 dev tools 的各種 console 型態（不是只有 console.log）</p>
+<figure class="highlight plaintext"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%s =&gt; string</span><br><span class="line">%c =&gt; css style</span><br></pre></td></tr></tbody></table></figure>
+
+
+
+<p><a target="_blank" rel="noopener" href="https://codepen.io/Bobo624/pen/xxYXvvq?editors=0011">My Practice Demo</a> (記得開啟 debug mode 並開啟 dev tools)</p>
+<hr>
+<h3 id="D10-Hold-Shift-to-Check-Multiple-Checkboxes"><a href="#D10-Hold-Shift-to-Check-Multiple-Checkboxes" class="headerlink" title="D10 - Hold Shift to Check Multiple Checkboxes"></a>D10 - <strong><strong>Hold Shift to Check Multiple Checkboxes</strong></strong></h3><p>目標：使用 shift 可以在 checkbox 中一起選取多個</p>
+<p>使用 click 事件監聽及 <code>event.shiftKey</code> 來判斷，這題的寫法，我使用找出 <code>index of array</code> 的寫法，來判斷誰到誰要勾選，跟課程中的寫法不太一樣</p>
+<p>未來可挑戰</p>
+<ul>
+<li>現在只能部份全選，不能集體取消勾選</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://codepen.io/Bobo624/pen/rNJYrvr">My Practice Demo</a></p>
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Courses/" rel="tag">Courses</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2022/06/16/note-course-js30-1/"
+                    data-tooltip="JS30 系列筆記 - Day 1 ~ Day 5"
+                    aria-label="NEXT: JS30 系列筆記 - Day 1 ~ Day 5"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2022/06/17/note-course-js30-2/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2022/06/17/note-course-js30-2/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2022 Bobo Lin. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2022/06/16/note-course-js30-1/"
+                    data-tooltip="JS30 系列筆記 - Day 1 ~ Day 5"
+                    aria-label="NEXT: JS30 系列筆記 - Day 1 ~ Day 5"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2022/06/17/note-course-js30-2/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2022/06/17/note-course-js30-2/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2022/06/17/note-course-js30-2/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2022/06/17/note-course-js30-2/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar-tea.jpg" alt="Author&#39;s picture"/>
+        
+            <h4 id="about-card-name">Bobo Lin</h4>
+        
+            <div id="about-card-bio"><p>Hi! I am Bobo. Experienced as a web and system project manager and now I am back end developer. <br /> Using Node.js and Express.js framework with industry building web applications.</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Taipei, Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover-sea-1.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-dzsjyemehxeuofs4ljfjpnna7zbagpa4smfrsqws1xo2f1dmq4uk3br7lc0n.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+    
+
+
+
+
+    </body>
+</html>
