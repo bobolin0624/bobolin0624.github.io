@@ -1,0 +1,606 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Bobo&#39;s Blog">
+    <title>JS30 系列筆記 - Day 11 ~ Day 15 - Bobo&#39;s Blog</title>
+    <meta name="author" content="Bobo Lin">
+    
+        <meta name="keywords" content="hexo,JavaScript,Node.js,">
+    
+    
+        <link rel="icon" href="https://bobolin0624.github.io/assets/images/favicon.png">
+    
+    
+        
+            <link rel="alternate" type="application/atom+xml" title="RSS" href="/atom.xml">
+        
+    
+    <script type="application/ld+json">{"@context":"http://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Bobo Lin","sameAs":["https://github.com/BoboLin0624","https://www.linkedin.com/in/chia-an-lin-ba2a03218/"],"image":"avatar-tea.jpg"},"articleBody":"走了一半的 JS30，遇到不少沒用過的方法，像是 Day 11 的影片播放，覺得很有趣。 \n\n這也算是上這系列的目的，多讓自己對沒使用過的方法有些印象，未來遇到時就不會完全陌生了～\n\n\nD11 - Custom HTML5 Video Player目標：使用 JavaScript 製作網頁播放器的按鈕\n播放與暫停：video.paused() / video.play()\n快轉或倒退：使用 dataset 去抓取使用者的行為，控制 currentTime 的計算\n音量與速度：使用 input value 控制 slide bar\n時間條跟著播放時間走：利用 currentTime 佔全影片的比例在 CSS 使用 flexBasis 計算現在時間為影片時間的百分之幾\n時間條控制狂：監聽 mousemove 點擊 progress bar 要到指定的時間 (scrub) 影片秒數，利用 offsetX 佔時間條的寬度比例來計算，改變 video.currentTime\nMy practice demo\n\nD12 - Key Sequence Detection (KONAMI CODE)目標：判斷 user 輸入的 key 達到特定字串後，output 做出相對反應（猜字遊戲之類的？）\n取字串跟 PJ 大大一樣使用 Array.slice() 來做\n另使用 Array.prototype.join() 將陣列合併為字串\nMy practice demo\n\nD13 - Slide In on Scroll目標：頁面滑動到特定高度時，圖片會自動滑入畫面中，使用  opacity&nbsp;(0 → 1)\n如何計算圖片何時要準備滑入（利用高度）：window.scrollY 給的是視窗上方到捲軸最上面的距離 + 視窗高度 = 最底部的（圖片準備要出來的高度）\n使用 offset 屬性前，盡量先用 offsetParent 來查看該元素的父層對應到的是哪個元素\n作者內建了一個 debounce 函式，作用是在設定好的時間內，只會觸發一次事件，暫時還沒有深入研究。\nMy practice demo\n\nD14 - Object and Arrays - Reference VS Copy目標：了解 JS 的重要觀念\n關於 變數 / 物件 / 陣列 的  call by reference 及 call by value\n可以參考這篇 Huli 大大寫的極致探討文章\n\nD15 - LocalStorage and Event Delegation目標：練習將資料暫存於 localStorage 中，讓頁面刷新時可以讀取\npreventDefault() ：避免表單送出時，跳轉網頁重新整理\n12345678910// 建立資料LocalStoragelocalStorage.setItem(‘key’, setData)// setData must be JSON.stringify()// 取得資料localStorage.getItem()// 移除資料localStorage.removeItem()\n\n監聽 parent 對 checkeboxes 做 done or !done\nMy practice demo\n","dateCreated":"2022-06-27T14:00:00+08:00","dateModified":"2022-06-27T10:53:44+08:00","datePublished":"2022-06-27T14:00:00+08:00","description":"走了一半的 JS30，遇到不少沒用過的方法，像是 Day 11 的影片播放，覺得很有趣。 ","headline":"JS30 系列筆記 - Day 11 ~ Day 15","image":[],"mainEntityOfPage":{"@type":"WebPage","@id":"https://bobolin0624.github.io/2022/06/27/note-course-js30-3/"},"publisher":{"@type":"Organization","name":"Bobo Lin","sameAs":["https://github.com/BoboLin0624","https://www.linkedin.com/in/chia-an-lin-ba2a03218/"],"image":"avatar-tea.jpg","logo":{"@type":"ImageObject","url":"avatar-tea.jpg"}},"url":"https://bobolin0624.github.io/2022/06/27/note-course-js30-3/","keywords":"JavaScript, Courses"}</script>
+    <meta name="description" content="走了一半的 JS30，遇到不少沒用過的方法，像是 Day 11 的影片播放，覺得很有趣。">
+<meta property="og:type" content="blog">
+<meta property="og:title" content="JS30 系列筆記 - Day 11 ~ Day 15">
+<meta property="og:url" content="https://bobolin0624.github.io/2022/06/27/note-course-js30-3/index.html">
+<meta property="og:site_name" content="Bobo&#39;s Blog">
+<meta property="og:description" content="走了一半的 JS30，遇到不少沒用過的方法，像是 Day 11 的影片播放，覺得很有趣。">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-06-27T06:00:00.000Z">
+<meta property="article:modified_time" content="2022-06-27T02:53:44.462Z">
+<meta property="article:author" content="Bobo Lin">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Courses">
+<meta name="twitter:card" content="summary">
+    
+    
+        
+    
+    
+        <meta property="og:image" content="https://bobolin0624.github.io/assets/images/avatar-tea.jpg"/>
+    
+    
+    
+    
+    <!--STYLES-->
+    
+<link rel="stylesheet" href="/assets/css/style-gkxabcgjdjamjks2hf9trhmc8enb3bnyupdtpbsmjovnhqo9yficmtd0fyiw.min.css">
+
+    <!--STYLES END-->
+    
+
+    
+
+    
+        
+    
+
+<style>.github-emoji { position: relative; display: inline-block; width: 1.2em; min-height: 1.2em; overflow: hidden; vertical-align: top; color: transparent; }  .github-emoji > span { position: relative; z-index: 10; }  .github-emoji img, .github-emoji .fancybox { margin: 0 !important; padding: 0 !important; border: none !important; outline: none !important; text-decoration: none !important; user-select: none !important; cursor: auto !important; }  .github-emoji img { height: 1.2em !important; width: 1.2em !important; position: absolute !important; left: 50% !important; top: 50% !important; transform: translate(-50%, -50%) !important; user-select: none !important; cursor: auto !important; } .github-emoji-fallback { color: inherit; } .github-emoji-fallback img { opacity: 0 !important; }</style>
+</head>
+
+    <body>
+        <div id="blog">
+            <!-- Define author's picture -->
+
+
+    
+        
+            
+        
+    
+
+<header id="header" data-behavior="5">
+    <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+    <div class="header-title">
+        <a
+            class="header-title-link"
+            href="/"
+            aria-label=""
+        >
+            Bobo&#39;s Blog
+        </a>
+    </div>
+    
+        
+            <a
+                class="header-right-picture "
+                href="#about"
+                aria-label="Open the link: /#about"
+            >
+        
+        
+            <img class="header-picture" src="/assets/images/avatar-tea.jpg" alt="Author&#39;s picture"/>
+        
+        </a>
+    
+</header>
+
+            <!-- Define author's picture -->
+
+
+
+        
+    
+
+<nav id="sidebar" data-behavior="5">
+    <div class="sidebar-container">
+        
+            <div class="sidebar-profile">
+                <a
+                    href="/#about"
+                    aria-label="Read more about the author"
+                >
+                    <img class="sidebar-profile-picture" src="/assets/images/avatar-tea.jpg" alt="Author&#39;s picture"/>
+                </a>
+                <h4 class="sidebar-profile-name">Bobo Lin</h4>
+                
+                    <h5 class="sidebar-profile-bio"><p>Learning &#x2F; Music &#x2F; Photography</p>
+</h5>
+                
+            </div>
+        
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/"
+                            
+                            rel="noopener"
+                            title="Home"
+                        >
+                        <i class="sidebar-button-icon fa fa-home" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Home</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-categories"
+                            
+                            rel="noopener"
+                            title="Categories"
+                        >
+                        <i class="sidebar-button-icon fa fa-bookmark" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Categories</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-tags"
+                            
+                            rel="noopener"
+                            title="Tags"
+                        >
+                        <i class="sidebar-button-icon fa fa-tags" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Tags</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="/all-archives"
+                            
+                            rel="noopener"
+                            title="Archives"
+                        >
+                        <i class="sidebar-button-icon fa fa-archive" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">Archives</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="#about"
+                            
+                            rel="noopener"
+                            title="About"
+                        >
+                        <i class="sidebar-button-icon fas fa-anchor" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">About</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+            <ul class="sidebar-buttons">
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://github.com/BoboLin0624"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="GitHub"
+                        >
+                        <i class="sidebar-button-icon fab fa-github" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">GitHub</span>
+                    </a>
+            </li>
+            
+                <li class="sidebar-button">
+                    
+                        <a
+                            class="sidebar-button-link "
+                            href="https://www.linkedin.com/in/chia-an-lin-ba2a03218/"
+                            
+                                target="_blank"
+                            
+                            rel="noopener"
+                            title="LinkedIn"
+                        >
+                        <i class="sidebar-button-icon fab fa-linkedin" aria-hidden="true"></i>
+                        <span class="sidebar-button-desc">LinkedIn</span>
+                    </a>
+            </li>
+            
+        </ul>
+        
+    </div>
+</nav>
+
+            
+            <div id="main" data-behavior="5"
+                 class="
+                        hasCoverMetaIn
+                        ">
+                <body>
+    <script src="https://unpkg.com/vanilla-back-to-top@7.2.1/dist/vanilla-back-to-top.min.js"></script>
+    <script>addBackToTop({
+        diameter: 40,
+        backgroundColor: '#ddd',
+        textColor: 'red'
+      })
+    </script>
+</body>
+
+
+<article class="post">
+    
+    
+        <div class="post-header main-content-wrap text-left">
+    
+        <h1 class="post-title">
+            JS30 系列筆記 - Day 11 ~ Day 15
+        </h1>
+    
+    
+        <div class="post-meta">
+    <time datetime="2022-06-27T14:00:00+08:00">
+	
+		    Jun 27, 2022
+    	
+    </time>
+    
+        <span>in </span>
+        
+    <a class="category-link" href="/categories/Note/">Note</a>
+
+
+    
+</div>
+
+    
+</div>
+
+    
+    <div class="post-content markdown">
+        <div class="main-content-wrap">
+            <p>走了一半的 JS30，遇到不少沒用過的方法，像是 Day 11 的影片播放，覺得很有趣。 </p>
+<span id="more"></span>
+<p>這也算是上這系列的目的，多讓自己對沒使用過的方法有些印象，未來遇到時就不會完全陌生了～<br><br></p>
+<h1 id="table-of-contents">Table of Contents</h1><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#D11-Custom-HTML5-Video-Player"><span class="toc-text">D11 - Custom HTML5 Video Player</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D12-Key-Sequence-Detection-KONAMI-CODE"><span class="toc-text">D12 - Key Sequence Detection (KONAMI CODE)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D13-Slide-In-on-Scroll"><span class="toc-text">D13 - Slide In on Scroll</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D14-Object-and-Arrays-Reference-VS-Copy"><span class="toc-text">D14 - Object and Arrays - Reference VS Copy</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#D15-LocalStorage-and-Event-Delegation"><span class="toc-text">D15 - LocalStorage and Event Delegation</span></a></li></ol>
+
+<h3 id="D11-Custom-HTML5-Video-Player"><a href="#D11-Custom-HTML5-Video-Player" class="headerlink" title="D11 - Custom HTML5 Video Player"></a>D11 - <strong><strong>Custom HTML5 Video Player</strong></strong></h3><p>目標：使用 JavaScript 製作網頁播放器的按鈕</p>
+<p>播放與暫停：<code>video.paused()</code> / <code>video.play()</code></p>
+<p>快轉或倒退：使用 dataset 去抓取使用者的行為，控制 <code>currentTime</code> 的計算</p>
+<p>音量與速度：使用 <code>input</code> value 控制 slide bar</p>
+<p>時間條跟著播放時間走：利用 <code>currentTime</code> 佔全影片的比例在 CSS 使用 <code>flexBasis</code> 計算現在時間為影片時間的百分之幾</p>
+<p>時間條控制狂：監聽 <code>mousemove</code> 點擊 progress bar 要到指定的時間 (scrub) 影片秒數，利用 <code>offsetX</code> 佔時間條的寬度比例來計算，改變 <code>video.currentTime</code></p>
+<p><a target="_blank" rel="noopener" href="https://codepen.io/Bobo624/pen/KKQZmRw?editors=0011">My practice demo</a></p>
+<hr>
+<h3 id="D12-Key-Sequence-Detection-KONAMI-CODE"><a href="#D12-Key-Sequence-Detection-KONAMI-CODE" class="headerlink" title="D12 - Key Sequence Detection (KONAMI CODE)"></a>D12 - <strong><strong>Key Sequence Detection (KONAMI CODE)</strong></strong></h3><p>目標：判斷 user 輸入的 key 達到特定字串後，output 做出相對反應（猜字遊戲之類的？）</p>
+<p>取字串跟 PJ 大大一樣使用 Array.slice() 來做</p>
+<p>另使用 <code>Array.prototype.join()</code> 將陣列合併為字串</p>
+<p><a target="_blank" rel="noopener" href="https://codepen.io/Bobo624/pen/qBxxPPq?editors=0011">My practice demo</a></p>
+<hr>
+<h3 id="D13-Slide-In-on-Scroll"><a href="#D13-Slide-In-on-Scroll" class="headerlink" title="D13 - Slide In on Scroll"></a>D13 - <strong><strong>Slide In on Scroll</strong></strong></h3><p>目標：頁面滑動到特定高度時，圖片會自動滑入畫面中，使用  <code>opacity&nbsp;(0 → 1)</code></p>
+<p>如何計算圖片何時要準備滑入（利用高度）：<code>window.scrollY</code> 給的是視窗上方到捲軸最上面的距離 + 視窗高度 = 最底部的（圖片準備要出來的高度）</p>
+<p>使用 <code>offset</code> 屬性前，盡量先用 <code>offsetParent</code> 來查看該元素的父層對應到的是哪個元素</p>
+<p>作者內建了一個 <strong><code>debounce</code></strong> 函式，作用是在設定好的時間內，只會觸發一次事件，暫時還沒有深入研究。</p>
+<p><a target="_blank" rel="noopener" href="https://codepen.io/Bobo624/pen/yLvvPMa?editors=0110">My practice demo</a></p>
+<hr>
+<h3 id="D14-Object-and-Arrays-Reference-VS-Copy"><a href="#D14-Object-and-Arrays-Reference-VS-Copy" class="headerlink" title="D14 - Object and Arrays - Reference VS Copy"></a>D14 - <strong><strong>Object and Arrays - Reference VS Copy</strong></strong></h3><p>目標：了解 JS 的重要觀念</p>
+<p>關於 變數 / 物件 / 陣列 的  <code>call by reference</code> 及 <code>call by value</code></p>
+<p>可以參考這篇 Huli 大大寫的極致探討<a target="_blank" rel="noopener" href="https://blog.huli.tw/2018/06/23/javascript-call-by-value-or-reference/">文章</a></p>
+<hr>
+<h3 id="D15-LocalStorage-and-Event-Delegation"><a href="#D15-LocalStorage-and-Event-Delegation" class="headerlink" title="D15 - LocalStorage and Event Delegation"></a>D15 - <strong><strong>LocalStorage and Event Delegation</strong></strong></h3><p>目標：練習將資料暫存於 localStorage 中，讓頁面刷新時可以讀取</p>
+<p><code>preventDefault()</code> ：避免表單送出時，跳轉網頁重新整理</p>
+<figure class="highlight jsx"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 建立資料</span></span><br><span class="line"><span class="title class_">LocalStoragelocalStorage</span>.<span class="title function_">setItem</span>(‘key’, setData)</span><br><span class="line"><span class="comment">// setData must be JSON.stringify()</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 取得資料</span></span><br><span class="line"><span class="variable language_">localStorage</span>.<span class="title function_">getItem</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// 移除資料</span></span><br><span class="line"><span class="variable language_">localStorage</span>.<span class="title function_">removeItem</span>()</span><br><span class="line"></span><br></pre></td></tr></tbody></table></figure>
+
+<p>監聽 parent 對 checkeboxes 做 done or !done</p>
+<p><a target="_blank" rel="noopener" href="https://codepen.io/Bobo624/pen/ZErxXXN">My practice demo</a></p>
+
+            
+
+
+        </div>
+    </div>
+    <div id="post-footer" class="post-footer main-content-wrap">
+        
+            <div class="post-footer-tags">
+                <span class="text-color-light text-small">TAGGED IN</span><br/>
+                
+    <a class="tag tag--primary tag--small t-none-link" href="/tags/Courses/" rel="tag">Courses</a> <a class="tag tag--primary tag--small t-none-link" href="/tags/JavaScript/" rel="tag">JavaScript</a>
+
+            </div>
+        
+        
+            <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2022/06/17/note-course-js30-2/"
+                    data-tooltip="JS30 系列筆記 - Day 6 ~ Day 10"
+                    aria-label="NEXT: JS30 系列筆記 - Day 6 ~ Day 10"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2022/06/27/note-course-js30-3/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2022/06/27/note-course-js30-3/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+        
+        
+            
+        
+    </div>
+</article>
+
+
+
+                <footer id="footer" class="main-content-wrap">
+    <span class="copyrights">
+        Copyrights &copy; 2022 Bobo Lin. All Rights Reserved.
+    </span>
+</footer>
+
+            </div>
+            
+                <div id="bottom-bar" class="post-bottom-bar" data-behavior="5">
+                    <div class="post-actions-wrap">
+    <nav>
+        <ul class="post-actions post-action-nav">
+            <li class="post-action">
+                
+                    <a
+                        class="post-action-btn btn btn--disabled"
+                        aria-hidden="true"
+                    >
+                        
+                        <i class="fa fa-angle-left" aria-hidden="true"></i>
+                        <span class="hide-xs hide-sm text-small icon-ml">PREVIOUS</span>
+                    </a>
+            </li>
+            <li class="post-action">
+                
+                    
+                <a
+                    class="post-action-btn btn btn--default tooltip--top"
+                    href="/2022/06/17/note-course-js30-2/"
+                    data-tooltip="JS30 系列筆記 - Day 6 ~ Day 10"
+                    aria-label="NEXT: JS30 系列筆記 - Day 6 ~ Day 10"
+                >
+                    
+                        <span class="hide-xs hide-sm text-small icon-mr">NEXT</span>
+                        <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    </a>
+            </li>
+        </ul>
+    </nav>
+    <ul class="post-actions post-action-share">
+        <li class="post-action hide-lg hide-md hide-sm">
+            <a
+                class="post-action-btn btn btn--default btn-open-shareoptions"
+                href="#btn-open-shareoptions"
+                aria-label="Share this post"
+            >
+                <i class="fa fa-share-alt" aria-hidden="true"></i>
+            </a>
+        </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2022/06/27/note-course-js30-3/"
+                    title="Share on Facebook"
+                    aria-label="Share on Facebook"
+                >
+                    <i class="fab fa-facebook" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+            
+            
+            <li class="post-action hide-xs">
+                <a
+                    class="post-action-btn btn btn--default"
+                    target="new" href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2022/06/27/note-course-js30-3/"
+                    title="Share on Twitter"
+                    aria-label="Share on Twitter"
+                >
+                    <i class="fab fa-twitter" aria-hidden="true"></i>
+                </a>
+            </li>
+        
+        
+            
+        
+        <li class="post-action">
+            
+                <a class="post-action-btn btn btn--default" href="#table-of-contents" aria-label="Table of Contents">
+            
+                <i class="fa fa-list" aria-hidden="true"></i>
+            </a>
+        </li>
+    </ul>
+</div>
+
+
+                </div>
+                
+    <div id="share-options-bar" class="share-options-bar" data-behavior="5">
+        <i id="btn-close-shareoptions" class="fa fa-times"></i>
+        <ul class="share-options">
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://www.facebook.com/sharer/sharer.php?u=https://bobolin0624.github.io/2022/06/27/note-course-js30-3/"
+                        aria-label="Share on Facebook"
+                    >
+                        <i class="fab fa-facebook" aria-hidden="true"></i><span>Share on Facebook</span>
+                    </a>
+                </li>
+            
+                
+                
+                <li class="share-option">
+                    <a
+                        class="share-option-btn"
+                        target="new"
+                        href="https://twitter.com/intent/tweet?text=https://bobolin0624.github.io/2022/06/27/note-course-js30-3/"
+                        aria-label="Share on Twitter"
+                    >
+                        <i class="fab fa-twitter" aria-hidden="true"></i><span>Share on Twitter</span>
+                    </a>
+                </li>
+            
+        </ul>
+    </div>
+
+
+            
+        </div>
+        
+
+
+    
+        
+    
+
+<div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-times"></i>
+        </div>
+        
+            <img id="about-card-picture" src="/assets/images/avatar-tea.jpg" alt="Author&#39;s picture"/>
+        
+            <h4 id="about-card-name">Bobo Lin</h4>
+        
+            <div id="about-card-bio"><p>Hi! I am Bobo. Experienced as a web and system project manager and now I am back end developer. <br /> Using Node.js and Express.js framework with industry building web applications.</p>
+</div>
+        
+        
+            <div id="about-card-job">
+                <i class="fa fa-briefcase"></i>
+                <br/>
+                <p>Web Developer</p>
+
+            </div>
+        
+        
+            <div id="about-card-location">
+                <i class="fa fa-map-marker-alt"></i>
+                <br/>
+                Taipei, Taiwan
+            </div>
+        
+    </div>
+</div>
+
+        
+        
+<div id="cover" style="background-image:url('/assets/images/cover-sea-1.jpg');"></div>
+        <!--SCRIPTS-->
+
+<script src="/assets/js/script-dzsjyemehxeuofs4ljfjpnna7zbagpa4smfrsqws1xo2f1dmq4uk3br7lc0n.min.js"></script>
+
+<!--SCRIPTS END-->
+
+
+    
+
+
+
+
+    </body>
+</html>
